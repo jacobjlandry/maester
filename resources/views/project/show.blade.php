@@ -1,0 +1,64 @@
+@extends('welcome')
+
+@section('content')
+    <div class="ui container" style="display: flex; justify-content: flex-end;">
+        <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
+    </div>
+    <div class="ui container raised segment">
+        <div style="display: flex; flex-direction: column; width: 100%;">
+            <div style="display: flex; flex-direction: row; justify-content: space-between; padding-bottom: 15px;">
+                <div>
+                    @component('project.card', ['project' => $project]) @endcomponent
+                </div>
+                <div style="display: flex; flex-direction: column; width: 100%; padding-left: 15px;">
+                    <div class="ticket-list" style="padding-bottom: 15px;">
+                        <h4>Open Tickets</h4>
+                        <div class="ui vertical pointing menu" style="width: 100%;">
+                            @foreach($project->tasks as $task)
+                                <a class="item">
+                                    <i class="fa fa-{{ $task->fontawesome()  }}"></i> &nbsp; {{ $task->name }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="imcomplete-release-list" style="padding-bottom: 15px;">
+                        <h4>Planned Releases</h4>
+                        <div class="ui vertical pointing menu" style="width: 100%;">
+                            @foreach($project->releases->where('deleted_at', null) as $release)
+                                <a class="item">
+                                    {{ $release->version }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="complete-release-list" style="padding-bottom: 15px;">
+                        <h4>Completed Releases</h4>
+                        <div class="ui vertical pointing menu" style="width: 100%;">
+                            @foreach($project->releases->filter(function($release) { return $release->deleted_at != null; }) as $release)
+                                <a class="item">
+                                    {{ $release->version }}
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h4>Comments</h4>
+                <div class="ui threaded comments">
+                    @foreach($project->comments->where('parent_id', null) as $comment)
+                        @component('comment.show', ['comment' => $comment])@endcomponent
+                    @endforeach
+                    <form class="ui reply form">
+                        <div class="field">
+                            <textarea></textarea>
+                        </div>
+                        <div class="ui blue labeled submit icon button">
+                            <i class="icon edit"></i> Add Reply
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
