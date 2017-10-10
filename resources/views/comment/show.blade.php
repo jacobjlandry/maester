@@ -1,6 +1,10 @@
 <div class="comment">
-    <a class="avatar">
-        <img src="/images/avatar/small/matt.jpg">
+    <a class="avatar" style="text-align: center;">
+        @if($comment->user->avatar)
+            <img src="{{ $comment->user->avatar }}">
+        @else
+            <i class="fa fa-user fa-2x" style="color: #636b6f;"></i>
+        @endif
     </a>
     <div class="content">
         <a class="author">{{ $comment->user->name }}</a>
