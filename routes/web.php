@@ -17,10 +17,7 @@ Route::get('/', function () {
         ->with('projects', $projects);
 });
 
-
 Route::resource('project', 'ProjectController');
-/** Created by CRUDley at 2017-10-05 05:18:48 **/
+Route::post('project/comment', 'ProjectController@comment')->name('project.comment');
 Route::resource('task', 'TaskController');
-/** Created by CRUDley at 2017-10-09 02:32:52 **/
 Route::resource('release', 'ReleaseController');
-/** Created by CRUDley at 2017-10-09 02:49:00 **/

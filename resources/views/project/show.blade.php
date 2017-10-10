@@ -47,18 +47,31 @@
                 <h4>Comments</h4>
                 <div class="ui threaded comments">
                     @foreach($project->comments->where('parent_id', null) as $comment)
-                        @component('comment.show', ['comment' => $comment])@endcomponent
+                        @component('comment.show', ['comment' => $comment, 'project' => $project])@endcomponent
                     @endforeach
-                    <form class="ui reply form">
+                    <form action="{{ route('project.comment') }}" method="POST" class="ui reply form">
+                        {{ csrf_field() }}
+                        <input type="hidden" name="project_id" value="{{ $project->id }}" />
                         <div class="field">
-                            <textarea></textarea>
+                            <textarea name="comment"></textarea>
                         </div>
-                        <div class="ui blue labeled submit icon button">
+                        <button type="submit" class="ui blue labeled submit icon button">
                             <i class="icon edit"></i> Add Reply
-                        </div>
+                        </button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.reply-link').on('click', function(e) {
+                $('.comment-reply').hide();
+                $(e.currentTarget).siblings().show();
+            });
+        });
+    </script>
+@endpush

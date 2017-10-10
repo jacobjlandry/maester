@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Project;
+use App\ProjectComment;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -120,5 +121,30 @@ class ProjectController extends Controller
         $project->tasks()->delete();
         $project->releases()->delete();
         $project->delete();
+    }
+
+    /**
+     * Save a comment for this project
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function comment(Request $request)
+    {
+        Auth::loginUsingId(1);
+
+        $request->validate([
+            'comment' => 'required|max:255',
+            'project_id' => 'required'
+        ]);
+
+        ProjectComment::create([
+            'user_id' => Auth::user()->id,
+            'project_id' => $request->input('project_id'),
+            'comment' => $request->input('comment'),
+            'parent_id' => $request->has('parent') ? $request->input('parent') : null
+        ]);
+
+        return redirect(route('project.show', ['id' => $request->input('project_id')]));
     }
 }
