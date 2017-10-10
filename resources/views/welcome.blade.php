@@ -40,12 +40,22 @@
                             <i class="search link icon"></i>
                         </div>
                     </div>
-                    <a class="ui item">
-                        Profile
-                    </a>
-                    <a class="ui item">
-                        Logout
-                    </a>
+                    @if(Auth::user())
+                        <a class="ui item">
+                            Profile
+                        </a>
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="ui item">
+                            Logout
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">{{ csrf_field() }}</form>
+                    @else
+                        <a href="/login" class="ui item">
+                            Login
+                        </a>
+                        <a href="/register" class="ui item">
+                            Register
+                        </a>
+                    @endif
                 </div>
             </div>
         </div>

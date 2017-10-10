@@ -40,8 +40,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        Auth::loginUsingId(1);
-
         $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:255',
@@ -92,8 +90,6 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        Auth::loginUsingId(1);
-
         $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:255',
@@ -131,8 +127,6 @@ class ProjectController extends Controller
      */
     public function comment(Request $request)
     {
-        Auth::loginUsingId(1);
-
         $request->validate([
             'comment' => 'required|max:255',
             'project_id' => 'required'

@@ -21,3 +21,6 @@ Route::resource('project', 'ProjectController');
 Route::post('project/comment', 'ProjectController@comment')->name('project.comment');
 Route::resource('task', 'TaskController');
 Route::resource('release', 'ReleaseController');
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
