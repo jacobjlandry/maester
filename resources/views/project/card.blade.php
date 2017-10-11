@@ -1,7 +1,7 @@
 <div class="ui card project-card">
     <div class="image">
         <div class="icon">
-            <i class="fa fa-{{ $project->fontawesome }} fa-4x"></i>
+            <i class="fa fa-{{ $project->icon }} fa-4x"></i>
         </div>
     </div>
     <div class="content">

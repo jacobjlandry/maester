@@ -17,10 +17,16 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('description');
+            $table->binary('readme')->nullable();
             $table->string('type');
-            $table->string('fontawesome');
+            $table->string('icon');
+            $table->string('source_code_url')->nullable();
+            $table->string('production_url')->nullable();
+            $table->string('test_url')->nullable();
+            $table->string('dev_url')->nullable();
             $table->integer('created_by');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
