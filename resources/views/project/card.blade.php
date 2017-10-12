@@ -7,7 +7,7 @@
     <div class="content">
         <a class="header" href="/project/{{ $project->id }}">{{ $project->name }}</a>
         <div class="meta">
-            <span class="date">Created on {{ $project->created_at->toDateString() }}</span>
+            <span class="date">Created by {{ $project->user()->name }} on {{ $project->created_at->toDateString() }}</span>
         </div>
         <div class="description">
             {{ $project->description }}

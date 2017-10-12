@@ -98,7 +98,7 @@ class ProjectController extends Controller
         $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:255',
-            'type' => 'required|max:30'
+            'type' => 'required'
         ]);
 
         $project->update([
@@ -106,6 +106,11 @@ class ProjectController extends Controller
             'description' => $request->input('description'),
             'type' => $request->input('type'),
             'icon' => $request->input('icon') ?: 'globe',
+            'readme' => $request->input('readme'),
+            'source_code_url' => $request->input('source_code_url'),
+            'production_url' => $request->input('production_url'),
+            'test_url' => $request->input('test_url'),
+            'dev_url' => $request->input('dev_url'),
             'created_by' => Auth::user()->id
         ]);
     }
@@ -145,5 +150,14 @@ class ProjectController extends Controller
         ]);
 
         return redirect(route('project.show', ['id' => $request->input('project_id')]));
+    }
+
+    /*
+     * Display readme file (markup)
+     */
+    public function readme(Project $project)
+    {
+        dd($project);
+        dd($project->readme);
     }
 }

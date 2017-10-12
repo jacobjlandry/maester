@@ -39,6 +39,11 @@ class Project extends Model
         return $this->hasMany('App\Task')->where('type', 'feature');
     }
 
+    public function user()
+    {
+        return User::find($this->created_by);
+    }
+
     /**
      * Get users attached to this project
      *

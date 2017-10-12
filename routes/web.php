@@ -19,6 +19,7 @@ Route::get('/', function () {
 
 Route::resource('project', 'ProjectController');
 Route::post('project/comment', 'ProjectController@comment')->name('project.comment');
+Route::get('project/{id}/readme', 'ProjectController@readme')->name('project.readme');
 Route::resource('task', 'TaskController');
 Route::resource('release', 'ReleaseController');
 Auth::routes();

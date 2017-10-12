@@ -1,7 +1,8 @@
 @extends('welcome')
 
 @section('content')
-    <div class="ui container" style="display: flex; justify-content: flex-end;">
+    <div class="ui container" style="display: flex; justify-content: space-between;">
+        <a href="/project/{{ $project->id }}/readme" class="ui blue button">View Readme</a>
         <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
     </div>
     <div class="ui container raised segment">
@@ -9,6 +10,7 @@
             <div style="display: flex; flex-direction: row; justify-content: space-between; padding-bottom: 15px;">
                 <div>
                     @component('project.card', ['project' => $project]) @endcomponent
+                    @component('project.detailCard', ['project' => $project]) @endcomponent
                 </div>
                 <div style="display: flex; flex-direction: column; width: 100%; padding-left: 15px;">
                     <div class="ticket-list" style="padding-bottom: 15px;">
@@ -56,7 +58,7 @@
                             <textarea name="comment"></textarea>
                         </div>
                         <button type="submit" class="ui blue labeled submit icon button">
-                            <i class="icon edit"></i> Add Reply
+                            <i class="icon edit"></i> Add Comment
                         </button>
                     </form>
                 </div>
