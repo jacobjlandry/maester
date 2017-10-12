@@ -30,8 +30,8 @@
                 <a class="item" href="/project">
                     Projects
                 </a>
-                <a class="item">
-                    Tickets
+                <a class="item" href="/task">
+                    Tasks
                 </a>
                 <div class="right menu">
                     <div class="item">
