@@ -2,11 +2,18 @@
 
 @section('content')
     <div class="ui container raised segment" style="display: flex; flex-direction: column;">
-        <h3>Edit Project</h3>
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h3>Edit Project</h3>
+            </div>
+            <div>
+                * designates a required field
+            </div>
+        </div>
         <form id='edit-form' method="post" class="ui form" action="/project/{{ $project->id }}">
             <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
-                    Name
+                    Name *
                 </div>
                 <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center;">
                     <input name="name" type="text" placeholder="Project Name" value="{{ $project->name }}">
@@ -14,7 +21,7 @@
             </div>
             <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
-                    Description
+                    Description *
                 </div>
                 <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
                     <input name="description" type="text" placeholder="Project Description" value="{{ $project->description }}">
@@ -22,7 +29,7 @@
             </div>
             <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
-                    Type
+                    Type *
                 </div>
                 <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
                     <div class="ui dropdown fluid selection">
