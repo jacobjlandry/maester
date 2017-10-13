@@ -7,7 +7,7 @@
     <div class="ui container raised segment">
         @foreach($tasks as $task)
             <div class="column" style="padding-top: 7px; padding-bottom: 7px;">
-                task
+                @component('task.card', ['task' => $task])@endcomponent
             </div>
         @endforeach
 

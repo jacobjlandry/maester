@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
+use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -27,7 +29,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        return view('task.create');
+        $projects = Project::all();
+
+        return view('task.create')
+            ->with('projects', $projects);
     }
 
     /**
@@ -38,7 +43,44 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'type' => 'required',
+            'detail' => 'required',
+            'project_id' => 'required',
+            'created_by' => 'required'
+        ]);
+
+        $task = Task::create([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'type' => $request->input('type'),
+            'detail' => $request->input('detail'),
+            'created_by' => $request->input('created_by'),
+            'project_id' => $request->input('project_id')
+        ]);
+
+        foreach($request->files as $key => $file) {
+            $uploadedFile = $request->file($key);
+
+            $fileExtension = $uploadedFile->getClientOriginalExtension();
+            $fileName = preg_replace("/\.$fileExtension/", "", $uploadedFile->getClientOriginalName());
+            $storedFileName = rand(1,999) . '_' . $uploadedFile->getClientOriginalName();
+
+            $uploadedFile->storeAs('uploads', $storedFileName);
+
+            $file = File::create([
+                'task_id' => $task->id,
+                'name' => $fileName,
+                'extension' => $fileExtension,
+                'size' => $uploadedFile->getClientSize(),
+                'path' => storage_path('uploads/' . $storedFileName),
+                'created_by' => $request->input('created_by')
+            ]);
+        };
+
+        return redirect(route('task.index'));
     }
 
     /**
@@ -49,7 +91,8 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        //
+        return view('task.show')
+            ->with('task', $task);
     }
 
     /**

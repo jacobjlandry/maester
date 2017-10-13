@@ -71,6 +71,13 @@ html, body {
       }
     }
 
+    .comments {
+      text-align: center;
+      a {
+        color: rgb(242, 113, 28);
+      }
+    }
+
     .features {
       text-align: center;
       a {
@@ -129,6 +136,60 @@ html, body {
       text-align: center;
       a {
         color: rgb(33, 186, 69);
+      }
+    }
+
+    .users {
+      text-align: center;
+      a {
+        color: rgb(33, 133, 208);
+      }
+    }
+  }
+}
+
+/** Task Card */
+.task-card {
+  width: 300px;
+  height: 280px;
+
+  .content {
+    text-align: center;
+  }
+
+  .icon {
+    text-align: center;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+
+    .header {
+      font-weight: bold;
+      font-size: 18px;
+      color: #636b6f !important;
+    }
+    a.header:hover {
+      color: #4183C4 !important;
+    }
+  }
+
+  .description {
+    padding-top: 15px;
+  }
+
+  .extra {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 15px;
+
+    .comments {
+      text-align: center;
+      a {
+        color: rgb(242, 113, 28);
       }
     }
 

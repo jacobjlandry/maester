@@ -7,7 +7,7 @@
     <div class="content">
         <a class="header" href="/project/{{ $project->id }}">{{ $project->name }}</a>
         <div class="meta">
-            <span class="date">Created by {{ $project->user()->name }} on {{ $project->created_at->toDateString() }}</span>
+            <span class="date">Created by {{ $project->user->name }} on {{ $project->created_at->toDateString() }}</span>
         </div>
         <div class="description">
             {{ $project->description }}
@@ -17,6 +17,11 @@
         <div class="bugs">
             <a class='ui' href="#">
                 <i class="fa fa-bug"></i> {{ $project->bugs->count() }}
+            </a>
+        </div>
+        <div class="comments">
+            <a class='ui' href="#">
+                <i class="fa fa-comments"></i> {{ $project->comments->count() }}
             </a>
         </div>
         <div class="features">

@@ -45,6 +45,10 @@ html, body {
       text-align: center; }
       .project-card .extra .bugs a {
         color: #db2828; }
+    .project-card .extra .comments {
+      text-align: center; }
+      .project-card .extra .comments a {
+        color: #f2711c; }
     .project-card .extra .features {
       text-align: center; }
       .project-card .extra .features a {
@@ -84,6 +88,42 @@ html, body {
     .project-list-item .actions .users {
       text-align: center; }
       .project-list-item .actions .users a {
+        color: #2185d0; }
+
+/** Task Card */
+.task-card {
+  width: 300px;
+  height: 280px; }
+  .task-card .content {
+    text-align: center; }
+  .task-card .icon {
+    text-align: center;
+    padding: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center; }
+    .task-card .icon .header {
+      font-weight: bold;
+      font-size: 18px;
+      color: #636b6f !important; }
+    .task-card .icon a.header:hover {
+      color: #4183C4 !important; }
+  .task-card .description {
+    padding-top: 15px; }
+  .task-card .extra {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 15px; }
+    .task-card .extra .comments {
+      text-align: center; }
+      .task-card .extra .comments a {
+        color: #f2711c; }
+    .task-card .extra .users {
+      text-align: center; }
+      .task-card .extra .users a {
         color: #2185d0; }
 
 .footer {

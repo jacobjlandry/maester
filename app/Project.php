@@ -41,7 +41,7 @@ class Project extends Model
 
     public function user()
     {
-        return User::find($this->created_by);
+        return $this->hasOne('\App\User', 'id', 'created_by');
     }
 
     /**
