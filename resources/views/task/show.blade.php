@@ -27,14 +27,14 @@
                 </div>
             </div>
             <div>
-                <h4>Comments</h4>
+                <h4 id="comments">Comments</h4>
                 <div class="ui threaded comments">
                     @foreach($task->comments->where('parent_id', null) as $comment)
-                        @component('comment.show', ['comment' => $comment, 'task' => $task])@endcomponent
+                        @component('comment.show', ['comment' => $comment, 'object' => $task, 'action' => route('task.comment')])@endcomponent
                     @endforeach
-                    <form action="{{ route('project.comment') }}" method="POST" class="ui reply form">
+                    <form action="{{ route('task.comment') }}" method="POST" class="ui reply form">
                         {{ csrf_field() }}
-                        <input type="hidden" name="task_id" value="{{ $task->id }}" />
+                        <input type="hidden" name="object_id" value="{{ $task->id }}" />
                         <div class="field">
                             <textarea name="comment"></textarea>
                         </div>

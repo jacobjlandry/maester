@@ -17,8 +17,8 @@
                         <h4>Open Tickets</h4>
                         <div class="ui vertical pointing menu" style="width: 100%;">
                             @foreach($project->tasks as $task)
-                                <a class="item">
-                                    <i class="fa fa-{{ $task->fontawesome()  }}"></i> &nbsp; {{ $task->name }}
+                                <a class="item" href="/task/{{ $task->id }}">
+                                    <i class="fa fa-{{ $task->fontawesome()  }}"></i> &nbsp; {{ $task->title }}
                                 </a>
                             @endforeach
                         </div>
@@ -46,14 +46,14 @@
                 </div>
             </div>
             <div>
-                <h4>Comments</h4>
+                <h4 id="comments">Comments</h4>
                 <div class="ui threaded comments">
                     @foreach($project->comments->where('parent_id', null) as $comment)
-                        @component('comment.show', ['comment' => $comment, 'project' => $project])@endcomponent
+                        @component('comment.show', ['comment' => $comment, 'object' => $project, 'action' => route('project.comment')])@endcomponent
                     @endforeach
                     <form action="{{ route('project.comment') }}" method="POST" class="ui reply form">
                         {{ csrf_field() }}
-                        <input type="hidden" name="project_id" value="{{ $project->id }}" />
+                        <input type="hidden" name="object_id" value="{{ $project->id }}" />
                         <div class="field">
                             <textarea name="comment"></textarea>
                         </div>

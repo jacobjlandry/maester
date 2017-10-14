@@ -20,7 +20,7 @@
             </a>
         </div>
         <div class="comments">
-            <a class='ui' href="#">
+            <a class='ui' href="#comments">
                 <i class="fa fa-comments"></i> {{ $project->comments->count() }}
             </a>
         </div>

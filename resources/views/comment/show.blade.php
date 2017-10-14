@@ -16,9 +16,9 @@
         </div>
         <div class="actions">
             <a class="reply reply-link">Reply</a>
-            <form action="{{ route('project.comment') }}" method="POST" class="ui reply form comment-reply" style="display: none;">
+            <form action="{{ $action }}" method="POST" class="ui reply form comment-reply" style="display: none;">
                 {{ csrf_field() }}
-                <input type="hidden" name="project_id" value="{{ $project->id }}" />
+                <input type="hidden" name="object_id" value="{{ $object->id }}" />
                 <input type="hidden" name="parent" value="{{ $comment->id }}" />
                 <div class="field">
                     <textarea name="comment"></textarea>
@@ -32,7 +32,7 @@
     @if($comment->comments()->count())
         <div class="comments">
             @foreach($comment->comments() as $subComment)
-                @component('comment.show', ['comment' => $subComment, 'project' => $project])@endcomponent
+                @component('comment.show', ['comment' => $subComment, 'object' => $object, 'action' => $action])@endcomponent
             @endforeach
         </div>
     @endif

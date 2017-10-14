@@ -15,12 +15,14 @@
     </div>
     <div class="extra">
         <div class="comments">
-            <a class='ui' href="#">
-                <i class="fa fa-comments"></i> 0
+            <a class='ui' href="#comments">
+                <i class="fa fa-comments"></i> {{ $task->comments->count() }}
             </a>
         </div>
         <div>
-            <i class="fa fa-{{ $task->project->icon }}"></i> &nbsp; {{ $task->project->name }}
+            <a href="/project/{{ $task->project->id }}">
+                <i class="fa fa-{{ $task->project->icon }}"></i> &nbsp; {{ $task->project->name }}
+            </a>
         </div>
         <div class="users">
             <a class='ui' href="#">

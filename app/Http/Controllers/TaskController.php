@@ -6,6 +6,8 @@ use App\File;
 use App\Project;
 use App\Task;
 use Illuminate\Http\Request;
+use App\TaskComment;
+use Auth;
 
 class TaskController extends Controller
 {
@@ -127,5 +129,28 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         //
+    }
+
+    /**
+     * Save a comment for this task
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function comment(Request $request)
+    {
+        $request->validate([
+            'comment' => 'required|max:255',
+            'object_id' => 'required'
+        ]);
+
+        TaskComment::create([
+            'user_id' => Auth::user()->id,
+            'task_id' => $request->input('object_id'),
+            'comment' => $request->input('comment'),
+            'parent_id' => $request->has('parent') ? $request->input('parent') : null
+        ]);
+
+        return redirect(route('task.show', ['id' => $request->input('object_id')]));
     }
 }

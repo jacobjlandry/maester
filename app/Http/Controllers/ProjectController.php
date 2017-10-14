@@ -139,17 +139,17 @@ class ProjectController extends Controller
     {
         $request->validate([
             'comment' => 'required|max:255',
-            'project_id' => 'required'
+            'object_id' => 'required'
         ]);
 
         ProjectComment::create([
             'user_id' => Auth::user()->id,
-            'project_id' => $request->input('project_id'),
+            'project_id' => $request->input('object_id'),
             'comment' => $request->input('comment'),
             'parent_id' => $request->has('parent') ? $request->input('parent') : null
         ]);
 
-        return redirect(route('project.show', ['id' => $request->input('project_id')]));
+        return redirect(route('project.show', ['id' => $request->input('object_id')]));
     }
 
     /*
