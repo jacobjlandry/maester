@@ -12,6 +12,7 @@
                     @component('task.card', ['task' => $task]) @endcomponent
                 </div>
                 <div style="display: flex; flex-direction: column; width: 100%; padding-left: 15px;">
+                    <h4>@if($task->type == 'bug') Steps to Reproduce @else Details @endif</h4>
                     {{ $task->detail }}
 
                     <h4>Files</h4>
