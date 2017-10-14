@@ -26,13 +26,13 @@
     <body>
         <div class="navigation">
             <div class="ui secondary menu nav-menu">
-                <a class="active item" href="/">
+                <a class="@if(active_nav('home')) active @endif item" href="/">
                     Home
                 </a>
-                <a class="item" href="/project">
+                <a class="@if(active_nav('project')) active @endif item" href="/project">
                     Projects
                 </a>
-                <a class="item" href="/task">
+                <a class="@if(active_nav('task')) active @endif item" href="/task">
                     Tasks
                 </a>
                 <div class="right menu">
