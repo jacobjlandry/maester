@@ -19,14 +19,14 @@
                 <i class="fa fa-bug"></i> {{ $project->bugs->count() }}
             </a>
         </div>
-        <div class="comments">
-            <a class='ui' href="#comments">
-                <i class="fa fa-comments"></i> {{ $project->comments->count() }}
-            </a>
-        </div>
         <div class="features">
             <a class='ui' href="#">
                 <i class="fa fa-list"></i> {{ $project->features->count() }}
+            </a>
+        </div>
+        <div class="comments">
+            <a class='ui' href="#comments">
+                <i class="fa fa-comments"></i> {{ $project->comments->count() }}
             </a>
         </div>
         <div class="users">

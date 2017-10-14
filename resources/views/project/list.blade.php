@@ -10,5 +10,9 @@
                 @component('project.card', ['project' => $project]) @endcomponent
             </div>
         @endforeach
+
+        @if(!$projects->count())
+            There's nothing here boss, create some cool projects!
+        @endif
     </div>
 @endsection

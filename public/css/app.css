@@ -25,6 +25,13 @@ html, body {
   flex-wrap: wrap;
   justify-content: space-around; }
 
+/** generic colors **/
+.bug {
+  color: #db2828; }
+
+.feature {
+  color: #21ba45; }
+
 /** Project Card */
 .project-card {
   width: 300px;

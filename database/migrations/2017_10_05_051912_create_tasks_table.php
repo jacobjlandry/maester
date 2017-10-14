@@ -23,6 +23,8 @@ class CreateTasksTable extends Migration
             $table->integer('release_id')->nullable()->index();
             $table->string('detail');
             $table->integer('created_by');
+            $table->integer('modified_by')->nullable();
+            $table->integer('owned_by');
             $table->timestamps();
         });
     }

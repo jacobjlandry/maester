@@ -62,27 +62,29 @@
                     <textarea name="detail">{{ $task->detail }}</textarea>
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
-                <div style="width: 15%; display: flex; align-items: center;">
-                    Files
-                </div>
-                <div class="field ui fluid icon input file" style="width: 85%; display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; justify-content: space-between;">
-                    @foreach($task->files as $file)
-                        <div class="ui action input" style="width: 30%; padding-bottom: 15px;">
-                            <input class="uploaded-file" modal="{{ $file->id }}" type="text" placeholder="File 1" value="{{ $file->name }}.{{ $file->extension }}" readonly>
-                            <div class="ui icon button">
-                                <i class="attach icon"></i>
+            @if($task->files->count())
+                <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+                    <div style="width: 15%; display: flex; align-items: center;">
+                        Files
+                    </div>
+                    <div class="field ui fluid icon input file" style="width: 85%; display: flex; flex-direction: row; align-items: center; flex-wrap: wrap; justify-content: space-between;">
+                        @foreach($task->files as $file)
+                            <div class="ui action input" style="width: 30%; padding-bottom: 15px;">
+                                <input class="uploaded-file" modal="{{ $file->id }}" type="text" placeholder="File 1" value="{{ $file->name }}.{{ $file->extension }}" readonly>
+                                <div class="ui icon button">
+                                    <i class="attach icon"></i>
+                                </div>
                             </div>
-                        </div>
-                        @component('file.modal', ['file' => $file])@endcomponent
-                    @endforeach
+                            @component('file.modal', ['file' => $file])@endcomponent
+                        @endforeach
+                    </div>
                 </div>
-            </div>
+            @endif
             <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;"></div>
                 <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px;">
                     {{ csrf_field() }}
-                    <input type="hidden" name="created_by" value="{{ Auth::user()->id }}" />
+                    <input type="hidden" name="modified_by" value="{{ Auth::user()->id }}" />
                     <button id="submit" class="ui button green">Submit</button>
                 </div>
             </div>

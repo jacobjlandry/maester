@@ -2,25 +2,34 @@
 
 @section('content')
     <div class="ui container raised segment" style="display: flex; flex-direction: column;">
-        <h3>New Task</h3>
+        <h3>
+            New Task
+            @if(Request::get('project'))
+                for {{ \App\Project::find(Request::get('project'))->name }}
+            @endif
+        </h3>
         <form method="post" class="ui form" action="/task" enctype="multipart/form-data">
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
-                <div style="width: 15%; display: flex; align-items: center;">
-                    Project
-                </div>
-                <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
-                    <div class="ui dropdown fluid selection">
-                        <input type="hidden" name="project_id">
-                        <div class="default text">Project</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            @foreach($projects as $project)
-                                <div class="item" data-value="{{ $project->id }}">{{ $project->name }}</div>
-                            @endforeach
+            @if(Request::get('project'))
+                <input type="hidden" name="project_id" value="{{ Request::get('project') }}" />
+            @else
+                <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="width: 15%; display: flex; align-items: center;">
+                        Project
+                    </div>
+                    <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
+                        <div class="ui dropdown fluid selection">
+                            <input type="hidden" name="project_id">
+                            <div class="default text">Project</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                @foreach($projects as $project)
+                                    <div class="item" data-value="{{ $project->id }}">{{ $project->name }}</div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
             <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Title

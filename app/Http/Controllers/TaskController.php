@@ -60,6 +60,7 @@ class TaskController extends Controller
             'type' => $request->input('type'),
             'detail' => $request->input('detail'),
             'created_by' => $request->input('created_by'),
+            'owned_by' => $request->input('created_by'),
             'project_id' => $request->input('project_id')
         ]);
 
@@ -82,7 +83,7 @@ class TaskController extends Controller
             ]);
         };
 
-        return redirect(route('task.index'));
+        return redirect(route('project.show', ['id' => $request->input('project_id')]));
     }
 
     /**
@@ -135,8 +136,8 @@ class TaskController extends Controller
             'description' => $request->input('description'),
             'type' => $request->input('type'),
             'detail' => $request->input('detail'),
-            'created_by' => $request->input('created_by'),
-            'project_id' => $request->input('project_id')
+            'project_id' => $request->input('project_id'),
+            'modified_by' => $request->input('modified_by')
         ]);
     }
 
