@@ -26,9 +26,26 @@ class Task extends Model
         return $this->hasOne('App\Release');
     }
 
-    public function user()
+    public function createdBy()
     {
         return $this->hasOne('\App\User', 'id', 'created_by');
+    }
+
+    public function ownedBy()
+    {
+        return $this->hasOne('\App\User', 'id', 'owned_by');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany('\App\User');
+    }
+
+    public function hasUser($userId)
+    {
+        return $this->users->search(function($item) use($userId) {
+            return $item->id == $userId;
+        }) !== false;
     }
 
     public function project()
@@ -44,5 +61,10 @@ class Task extends Model
     public function comments()
     {
         return $this->hasMany('\App\TaskComment');
+    }
+
+    public function notes()
+    {
+        return $this->hasMany('\App\TaskNote');
     }
 }

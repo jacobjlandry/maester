@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\File;
 use App\Project;
 use App\Task;
+use App\TaskNote;
 use Illuminate\Http\Request;
 use App\TaskComment;
 use Auth;
@@ -138,6 +139,34 @@ class TaskController extends Controller
             'detail' => $request->input('detail'),
             'project_id' => $request->input('project_id'),
             'modified_by' => $request->input('modified_by')
+        ]);
+    }
+
+    /**
+     * Update the status of a ticket and attach the user who updated the status to the ticket
+     *
+     * @param Request $request
+     * @param Task $task
+     */
+    public function updateStatus(Request $request, Task $task)
+    {
+        $request->validate([
+            'status' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        if(!$task->hasUser($request->input('user_id'))) {
+            $task->users()->attach($request->input('user_id'));
+        }
+
+        TaskNote::create([
+            'task_id' => $task->id,
+            'user_id' => $request->input('user_id'),
+            'note' => "status changed {$task->status} => {$request->input('status')}"
+        ]);
+
+        $task->update([
+            'status' => $request->input('status')
         ]);
     }
 

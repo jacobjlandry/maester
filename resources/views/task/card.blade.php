@@ -7,7 +7,7 @@
     </div>
     <div class="content">
         <div class="meta">
-            <span class="date">Created by {{ $task->user->name }} on {{ $task->created_at->toDateString() }}</span>
+            <span class="date">Created by {{ $task->createdBy->name }} on {{ $task->created_at->toDateString() }}</span>
         </div>
         <div class="description">
             {{ $task->description }}
@@ -26,7 +26,7 @@
         </div>
         <div class="users">
             <a class='ui' href="#">
-                <i class="fa fa-user"></i> 0
+                <i class="fa fa-user"></i> {{ $task->users->count() }}
             </a>
         </div>
     </div>

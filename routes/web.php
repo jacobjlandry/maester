@@ -22,6 +22,7 @@ Route::post('project/comment', 'ProjectController@comment')->name('project.comme
 Route::get('project/{project}/readme', 'ProjectController@readme')->name('project.readme');
 Route::resource('task', 'TaskController');
 Route::post('task/comment', 'TaskController@comment')->name('task.comment');
+Route::patch('task/{task}/status', 'TaskController@updateStatus')->name('task.status');
 Route::resource('release', 'ReleaseController');
 Auth::routes();
 

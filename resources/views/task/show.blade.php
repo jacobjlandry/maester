@@ -12,18 +12,41 @@
                     @component('task.card', ['task' => $task]) @endcomponent
                 </div>
                 <div style="display: flex; flex-direction: column; width: 100%; padding-left: 15px;">
+                    <h4>Status</h4>
+                    {{ ucwords($task->status) }}
+
                     <h4>@if($task->type == 'bug') Steps to Reproduce @else Details @endif</h4>
                     {{ $task->detail }}
 
-                    <h4>Files</h4>
-                    <div class="ui vertical pointing menu" style="width: 100%;">
-                        @foreach($task->files as $file)
-                            <a class="item file" modal="{{ $file->id }}" style="display: flex; flex-direction: row; align-content: center; align-items: center;">
-                                <i class="fa fa-{{ $file->icon() }}"></i> &nbsp;&nbsp; {{ $file->name }}.{{ $file->extension }}
-                            </a>
-                            @component('file.modal', ['file' => $file])@endcomponent
-                        @endforeach
-                    </div>
+                    @if($task->files->count())
+                        <h4>Files</h4>
+                        <div class="ui vertical pointing menu" style="width: 100%;">
+                            @foreach($task->files as $file)
+                                <a class="item file" modal="{{ $file->id }}" style="display: flex; flex-direction: row; align-content: center; align-items: center;">
+                                    <i class="fa fa-{{ $file->icon() }}"></i> &nbsp;&nbsp; {{ $file->name }}.{{ $file->extension }}
+                                </a>
+                                @component('file.modal', ['file' => $file])@endcomponent
+                            @endforeach
+                        </div>
+                    @endif
+
+                    <h4>Actions</h4>
+                    @if($task->status == 'new' || $task->status == 'paused')
+                        <button class="ui blue button update-status" status="in progress">Start Work</button>
+                    @else
+                        <button class="ui blue button update-status" status="paused">Stop Work</button>
+                    @endif
+
+                    @if($task->notes->count())
+                        <h4>History</h4>
+                        <div class="ui vertical pointing menu" style="width: 100%;">
+                            @foreach($task->notes as $note)
+                                <div class="item" style="display: flex; flex-direction: row; align-content: center; align-items: center;">
+                                    {{ \App\User::find($note->user_id)->name }}: {{ $note->note }} @ {{ $note->created_at->toDateTimeString() }}
+                                </div>
+                            @endforeach
+                        </div>
+                    @endif
                 </div>
             </div>
             <div>
@@ -60,6 +83,22 @@
             $('.file').on('click', function(e) {
                 var modalId = $(e.currentTarget).attr('modal');
                 $('#fileModal' + modalId).modal('show');
+            });
+
+            $('.update-status').on('click', function(e) {
+                var status = $(e.currentTarget).attr('status');
+
+                $.ajax({
+                    url: '{{ route('task.status', ['id' => $task->id ]) }}',
+                    data: { 'status': status, 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
+                    method: 'PATCH',
+                    success: function() {
+                        location.reload();
+                    },
+                    error: function() {
+                        alert("Could not update!");
+                    }
+                });
             });
         });
     </script>
