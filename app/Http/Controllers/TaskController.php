@@ -75,7 +75,7 @@ class TaskController extends Controller
                 'name' => $fileName,
                 'extension' => $fileExtension,
                 'size' => $uploadedFile->getClientSize(),
-                'path' => storage_path('uploads/' . $storedFileName),
+                'path' => '/uploads/' . $storedFileName,
                 'created_by' => $request->input('created_by')
             ]);
         };

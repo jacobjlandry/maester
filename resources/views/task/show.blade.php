@@ -3,7 +3,7 @@
 @section('content')
     <div class="ui container" style="display: flex; justify-content: space-between;">
         <div></div>
-        <a href="/task/{{ $task->id }}/edit" class="ui green button">Edit Project</a>
+        <a href="/task/{{ $task->id }}/edit" class="ui green button">Edit Task</a>
     </div>
     <div class="ui container raised segment">
         <div style="display: flex; flex-direction: column; width: 100%;">
@@ -17,9 +17,10 @@
                     <h4>Files</h4>
                     <div class="ui vertical pointing menu" style="width: 100%;">
                         @foreach($task->files as $file)
-                            <a class="item" style="display: flex; flex-direction: row; align-content: center; align-items: center;">
-                                <img class="ui mini image" src="{{ $file->path }}"> &nbsp;&nbsp; {{ $file->name }}
+                            <a class="item file" modal="{{ $file->id }}" style="display: flex; flex-direction: row; align-content: center; align-items: center;">
+                                <i class="fa fa-{{ $file->icon() }}"></i> &nbsp;&nbsp; {{ $file->name }}.{{ $file->extension }}
                             </a>
+                            @component('file.modal', ['file' => $file])@endcomponent
                         @endforeach
                     </div>
                 </div>
@@ -52,6 +53,12 @@
             $('.reply-link').on('click', function(e) {
                 $('.comment-reply').hide();
                 $(e.currentTarget).siblings().show();
+            });
+
+            /** show file modal **/
+            $('.file').on('click', function(e) {
+                var modalId = $(e.currentTarget).attr('modal');
+                $('#fileModal' + modalId).modal('show');
             });
         });
     </script>

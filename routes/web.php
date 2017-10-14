@@ -19,9 +19,11 @@ Route::get('/', function () {
 
 Route::resource('project', 'ProjectController');
 Route::post('project/comment', 'ProjectController@comment')->name('project.comment');
-Route::get('project/{id}/readme', 'ProjectController@readme')->name('project.readme');
+Route::get('project/{project}/readme', 'ProjectController@readme')->name('project.readme');
 Route::resource('task', 'TaskController');
 Route::resource('release', 'ReleaseController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/file/{file}', 'FileController@show')->name('file.show');
+Route::get('file/{file}/download', 'FileController@download')->name('file.download');
