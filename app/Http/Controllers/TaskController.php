@@ -105,7 +105,11 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        //
+        $projects = Project::all();
+
+        return view('task.edit')
+            ->with('projects', $projects)
+            ->with('task', $task);
     }
 
     /**
@@ -117,7 +121,23 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        //
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'type' => 'required',
+            'detail' => 'required',
+            'project_id' => 'required',
+            'created_by' => 'required'
+        ]);
+
+        $task->update([
+            'title' => $request->input('title'),
+            'description' => $request->input('description'),
+            'type' => $request->input('type'),
+            'detail' => $request->input('detail'),
+            'created_by' => $request->input('created_by'),
+            'project_id' => $request->input('project_id')
+        ]);
     }
 
     /**
@@ -128,7 +148,14 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        // delete files attached to this task
+        $task->files->each(function($file) {
+            unlink(storage_path('app/' . $file->path));
+            $file->delete();
+        });
+
+        // delete task
+        $task->delete();
     }
 
     /**
