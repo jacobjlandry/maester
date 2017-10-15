@@ -157,7 +157,7 @@ class ProjectController extends Controller
      */
     public function readme(Project $project)
     {
-        dd($project);
-        dd($project->readme);
+        return view('project.readme')
+            ->with('project', $project);
     }
 }
