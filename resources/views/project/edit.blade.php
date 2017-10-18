@@ -163,17 +163,20 @@
             });
 
             $('#delete').on('click', function(e) {
-                $.ajax({
-                    url: '{{ route('project.destroy', ['id' => $project->id]) }}',
-                    data: { _token: '{{ csrf_token() }}' },
-                    method: 'DELETE',
-                    success: function() {
-                        location = '{{ route('project.index') }}';
-                    },
-                    error: function() {
-                        alert("Could not delete!");
-                    }
-                })
+                var validate = confirm("Are you sure you want to delete this project and all data associated with it? \r\n\r\nThis cannot be undone.");
+                if(validate) {
+                    $.ajax({
+                        url: '{{ route('project.destroy', ['id' => $project->id]) }}',
+                        data: { _token: '{{ csrf_token() }}' },
+                        method: 'DELETE',
+                        success: function() {
+                            location = '{{ route('project.index') }}';
+                        },
+                        error: function() {
+                            alert("Could not delete!");
+                        }
+                    });
+                }
             });
         });
     </script>
