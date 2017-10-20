@@ -113,6 +113,8 @@ class ProjectController extends Controller
             'dev_url' => $request->input('dev_url'),
             'created_by' => Auth::user()->id
         ]);
+
+        return json_encode(['success' => true]);
     }
 
     /**

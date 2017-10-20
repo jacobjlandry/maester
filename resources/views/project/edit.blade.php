@@ -10,7 +10,7 @@
                 * designates a required field
             </div>
         </div>
-        <form id='edit-form' method="put" class="ui form" action="/project/{{ $project->id }}">
+        <form id='edit-form' class="ui form">
             <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Name *
@@ -150,16 +150,14 @@
                                 ]
                             }
                         }
+                    }).api({
+                        url: '{{ route('project.update', ['id' => $project->id ]) }}',
+                        data: $('#edit-form').serialize(),
+                        method: 'PUT',
+                        onSuccess: function() {
+                            location = '{{ route('project.show', ['id' => $project->id]) }}';
+                        }
                     });
-
-                $.ajax({
-                    url: '{{ route('project.update', ['id' => $project->id ]) }}',
-                    data: $('#edit-form').serialize(),
-                    method: 'PUT',
-                    success: function() {
-                        location = '{{ route('project.show', ['id' => $project->id]) }}';
-                    }
-                });
             });
 
             $('#delete').on('click', function(e) {

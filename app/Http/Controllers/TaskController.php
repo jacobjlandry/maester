@@ -129,7 +129,7 @@ class TaskController extends Controller
             'type' => 'required',
             'detail' => 'required',
             'project_id' => 'required',
-            'created_by' => 'required'
+            'modified_by' => 'required'
         ]);
 
         $task->update([
@@ -140,6 +140,8 @@ class TaskController extends Controller
             'project_id' => $request->input('project_id'),
             'modified_by' => $request->input('modified_by')
         ]);
+
+        return json_encode(['success' => true]);
     }
 
     /**

@@ -12,7 +12,7 @@
             @if(Request::get('project'))
                 <input type="hidden" name="project_id" value="{{ Request::get('project') }}" />
             @else
-                <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                     <div style="width: 15%; display: flex; align-items: center;">
                         Project
                     </div>
@@ -30,7 +30,7 @@
                     </div>
                 </div>
             @endif
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Title
                 </div>
@@ -38,7 +38,7 @@
                     <input name="title" type="text" placeholder="Task Title">
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Description
                 </div>
@@ -46,7 +46,7 @@
                     <input name="description" type="text" placeholder="Task Description">
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Type
                 </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     <div id="bug-detail" style="display: none;">Steps to Recreate</div>
                     <div id="feature-detail">Details</div>
@@ -71,7 +71,7 @@
                     <textarea name="detail"></textarea>
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Files
                 </div>
@@ -101,12 +101,13 @@
                     </div>
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;"></div>
-                <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px;">
+                <div class="ui fluid icon input" style="width: 85%; display: flex; flex-direction: column; margin-bottom: 15px;">
                     {{ csrf_field() }}
                     <input type="hidden" name="created_by" value="{{ Auth::user()->id }}" />
                     <button class="ui button green">Submit</button>
+                    <div class="ui error message"></div>
                 </div>
             </div>
         </form>
@@ -136,6 +137,58 @@
                 .on('change', function(e) {
                     var name = e.target.files[0].name;
                     $('input:text', $(e.target).parent()).val(name);
+                });
+
+            $('.ui.form')
+                .form({
+                    on: 'blur',
+                    fields: {
+                        project: {
+                            identifier  : 'project_id',
+                            rules: [
+                                {
+                                    type   : 'empty',
+                                    prompt : 'Please choose a project'
+                                }
+                            ]
+                        },
+                        title: {
+                            identifier  : 'title',
+                            rules: [
+                                {
+                                    type   : 'empty',
+                                    prompt : 'Please enter a title'
+                                }
+                            ]
+                        },
+                        description: {
+                            identifier  : 'description',
+                            rules: [
+                                {
+                                    type   : 'empty',
+                                    prompt : 'Please enter a description'
+                                }
+                            ]
+                        },
+                        type: {
+                            identifier  : 'type',
+                            rules: [
+                                {
+                                    type   : 'empty',
+                                    prompt : 'Please choose a type'
+                                }
+                            ]
+                        },
+                        detail: {
+                            identifier  : 'detail',
+                            rules: [
+                                {
+                                    type   : 'empty',
+                                    prompt : 'Please provide details or steps to reproduce'
+                                }
+                            ]
+                        }
+                    }
                 });
         });
     </script>

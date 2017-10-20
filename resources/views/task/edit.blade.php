@@ -2,9 +2,16 @@
 
 @section('content')
     <div class="ui container raised segment" style="display: flex; flex-direction: column;">
-        <h3>Edit Task</h3>
-        <form class="ui form" id="edit-form" enctype="multipart/form-data">
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+        <div style="display: flex; justify-content: space-between;">
+            <div>
+                <h3>Edit Task</h3>
+            </div>
+            <div>
+                * designates a required field
+            </div>
+        </div>
+        <form class="ui form" id="edit-form">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Project
                 </div>
@@ -21,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Title
                 </div>
@@ -29,7 +36,7 @@
                     <input name="title" type="text" placeholder="Task Title" value="{{ $task->title }}">
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Description
                 </div>
@@ -37,7 +44,7 @@
                     <input name="description" type="text" placeholder="Task Description" value="{{ $task->description }}">
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     Type
                 </div>
@@ -53,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     <div id="bug-detail" style="display: none;">Steps to Recreate</div>
                     <div id="feature-detail">Details</div>
@@ -63,7 +70,7 @@
                 </div>
             </div>
             @if($task->files->count())
-                <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
+                <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                     <div style="width: 15%; display: flex; align-items: center;">
                         Files
                     </div>
@@ -80,12 +87,13 @@
                     </div>
                 </div>
             @endif
-            <div class="form-item" style="display: flex; flex-direction: row; justify-content: space-between;">
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;"></div>
-                <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px;">
+                <div class="ui fluid icon input" style="width: 85%; display: flex; flex-direction: column; margin-bottom: 15px;">
                     {{ csrf_field() }}
                     <input type="hidden" name="modified_by" value="{{ Auth::user()->id }}" />
                     <button id="submit" class="ui button green">Submit</button>
+                    <div class="ui error message"></div>
                 </div>
             </div>
         </form>
@@ -126,18 +134,64 @@
                 });
 
             $('#submit').on('click', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: '{{ route('task.update', ['id' => $task->id ]) }}',
-                    data: $('#edit-form').serialize(),
-                    method: 'PUT',
-                    success: function() {
-                        location = '{{ route('task.show', ['id' => $task->id]) }}';
-                    },
-                    error: function() {
-                        alert("Could not update!");
-                    }
-                });
+                $('.ui.form')
+                    .form({
+                        on: 'blur',
+                        fields: {
+                            project: {
+                                identifier  : 'project_id',
+                                rules: [
+                                    {
+                                        type   : 'empty',
+                                        prompt : 'Please choose a project'
+                                    }
+                                ]
+                            },
+                            title: {
+                                identifier  : 'title',
+                                rules: [
+                                    {
+                                        type   : 'empty',
+                                        prompt : 'Please enter a title'
+                                    }
+                                ]
+                            },
+                            description: {
+                                identifier  : 'description',
+                                rules: [
+                                    {
+                                        type   : 'empty',
+                                        prompt : 'Please enter a description'
+                                    }
+                                ]
+                            },
+                            type: {
+                                identifier  : 'type',
+                                rules: [
+                                    {
+                                        type   : 'empty',
+                                        prompt : 'Please choose a type'
+                                    }
+                                ]
+                            },
+                            detail: {
+                                identifier  : 'detail',
+                                rules: [
+                                    {
+                                        type   : 'empty',
+                                        prompt : 'Please provide details or steps to reproduce'
+                                    }
+                                ]
+                            }
+                        }
+                    }).api({
+                        url: '{{ route('task.update', ['id' => $task->id ]) }}',
+                        data: $('#edit-form').serialize(),
+                        method: 'PUT',
+                        onSuccess: function() {
+                            location = '{{ route('task.show', ['id' => $task->id]) }}';
+                        }
+                    });
             });
 
             $('#delete').on('click', function(e) {
