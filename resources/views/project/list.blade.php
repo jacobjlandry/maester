@@ -12,7 +12,7 @@
         @endforeach
 
         @if(!$projects->count())
-            There's nothing here boss, create some cool projects!
+            There's nothing here, boss.  Create some cool projects!
         @endif
     </div>
 @endsection

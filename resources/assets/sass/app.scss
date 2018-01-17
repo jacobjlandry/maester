@@ -38,6 +38,33 @@ html, body {
     flex-wrap: wrap;
     justify-content: space-around;
   }
+
+  .welcome-banner {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 250px;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    .segment {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .welcome-banner-icon .fa-square {
+      color: #39CCCC;
+    }
+    .welcome-banner-icon .fa-star-half-empty {
+      color: #FFED4A;
+    }
+
+    .welcome-banner-content {
+      padding-left: 10px;
+    }
+  }
 }
 
 /** generic colors **/

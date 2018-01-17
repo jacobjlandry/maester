@@ -65,6 +65,20 @@
             <div class="ui container space-waster">
                 &nbsp;
             </div>
+            @if(!Auth::user())
+                <div class="welcome-banner">
+                    <div class="ui raised segment">
+                        <span class="fa-stack fa-lg welcome-banner-icon fa-2x">
+                          <i class="fa fa-square fa-stack-2x"></i>
+                          <i class="fa fa-star-half-empty fa-stack-1x"></i>
+                        </span>
+                        <span class="welcome-banner-content">
+                            Welcome to Maester! <br />
+                            Please <a href="/login">Login</a> or <a href="/register">Register</a> to continue.
+                        </span>
+                    </div>
+                </div>
+            @endif
             @yield('content')
         </div>
         <div class="footer">

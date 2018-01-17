@@ -24,6 +24,24 @@ html, body {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around; }
+#content .welcome-banner {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 250px;
+  justify-content: center;
+  align-items: center;
+  align-content: center; }
+  #content .welcome-banner .segment {
+    display: flex;
+    flex-direction: row;
+    align-items: center; }
+  #content .welcome-banner .welcome-banner-icon .fa-square {
+    color: #39CCCC; }
+  #content .welcome-banner .welcome-banner-icon .fa-star-half-empty {
+    color: #FFED4A; }
+  #content .welcome-banner .welcome-banner-content {
+    padding-left: 10px; }
 
 /** generic colors **/
 .bug {
