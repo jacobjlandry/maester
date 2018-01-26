@@ -21,7 +21,11 @@
         <script src="{{ asset('js/pdf.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js" type="text/javascript"></script>
 
-        @stack('scripts')
+        <script type="text/javascript">
+            $(document).ready(function() {
+                @stack('scripts')
+            });
+        </script>
     </head>
     <body>
         <div class="navigation">
@@ -46,6 +50,11 @@
                         <a class="ui item">
                             Profile
                         </a>
+                        @if(Auth::user()->role('admin'))
+                            <a class="ui item" href="/admin/users">
+                                Users
+                            </a>
+                        @endif
                         <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="ui item">
                             Logout
                         </a>

@@ -29,3 +29,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/file/{file}', 'FileController@show')->name('file.show');
 Route::get('file/{file}/download', 'FileController@download')->name('file.download');
+
+Route::get('/admin/users', 'UserController@list');
+Route::get('/admin/users/addRole', 'UserController@addRole');
+Route::get('/admin/users/removeRole', 'UserController@removeRole');

@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        \JacobLandry\CRUDley\Commands\CRUDley::class
+        \JacobLandry\CRUDley\Commands\CRUDley::class,
+        \App\Console\Commands\Setup::class,
     ];
 
     /**
