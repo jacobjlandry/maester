@@ -74,7 +74,7 @@
             <div class="ui container space-waster">
                 &nbsp;
             </div>
-            @if(!Auth::user())
+            @if(!Auth::user() && !isset($exception))
                 <div class="welcome-banner">
                     <div class="ui raised segment">
                         <span class="fa-stack fa-lg welcome-banner-icon fa-2x">

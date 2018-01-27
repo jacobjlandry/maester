@@ -40,6 +40,8 @@ html, body {
     color: #39CCCC; }
   #content .welcome-banner .welcome-banner-icon .fa-star-half-empty {
     color: #FFED4A; }
+  #content .welcome-banner .welcome-banner-icon .fa-exclamation {
+    color: #EF5753; }
   #content .welcome-banner .welcome-banner-content {
     padding-left: 10px; }
 
