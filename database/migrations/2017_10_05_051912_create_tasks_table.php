@@ -26,6 +26,7 @@ class CreateTasksTable extends Migration
             $table->integer('modified_by')->nullable();
             $table->integer('owned_by');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
