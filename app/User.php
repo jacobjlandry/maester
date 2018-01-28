@@ -69,4 +69,16 @@ class User extends Authenticatable
             ->pluck('name')
             ->search(strtolower($role)) !== false;
     }
+
+    /**
+     * Return all users not attached to a particular project
+     *
+     * @param Project $project
+     * @return mixed
+     */
+    public static function withoutProject(Project $project)
+    {
+        return User::whereNotIn('id', $project->users->pluck('id')->toArray())
+            ->get();
+    }
 }

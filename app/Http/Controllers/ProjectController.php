@@ -46,7 +46,7 @@ class ProjectController extends Controller
             'type' => 'required',
         ]);
 
-        Project::create([
+        $project = Project::create([
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'type' => $request->input('type'),
@@ -58,6 +58,9 @@ class ProjectController extends Controller
             'dev_url' => $request->input('dev_url'),
             'created_by' => Auth::user()->id
         ]);
+
+        // store relationship for project owner
+        $project->users()->attach(Auth::user());
 
         return redirect('/project');
     }

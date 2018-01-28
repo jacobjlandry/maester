@@ -20,6 +20,7 @@
         <script src="/semantic/dist/semantic.js" type="text/javascript"></script>
         <script src="{{ asset('js/pdf.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js" type="text/javascript"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
 
         <script type="text/javascript">
             $(document).ready(function() {

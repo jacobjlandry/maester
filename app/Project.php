@@ -39,7 +39,7 @@ class Project extends Model
         return $this->hasMany('App\Task')->where('type', 'feature');
     }
 
-    public function user()
+    public function creator()
     {
         return $this->hasOne('\App\User', 'id', 'created_by');
     }

@@ -85,6 +85,27 @@ html, body {
       .project-card .extra .users a {
         color: #2185d0; }
 
+.modal .actions {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row; }
+  .modal .actions .left {
+    align-content: left;
+    align-items: center; }
+  .modal .actions .right {
+    align-content: right;
+    align-items: center; }
+
+.modal .content .container {
+  border: thin dashed #ccc;
+  padding: 5px;
+  min-height: 50px; }
+  .modal .content .container .user {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    cursor: pointer;
+    margin: 5px; }
+
 /** Project List Item */
 .project-list-item {
   display: flex;
