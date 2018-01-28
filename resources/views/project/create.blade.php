@@ -105,43 +105,39 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ui.dropdown').dropdown();
+    $('.ui.dropdown').dropdown();
 
-            $('.ui.form')
-                .form({
-                    on: 'blur',
-                    fields: {
-                        name: {
-                            identifier  : 'name',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please enter a name'
-                                }
-                            ]
-                        },
-                        description: {
-                            identifier  : 'description',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please enter a description'
-                                }
-                            ]
-                        },
-                        type: {
-                            identifier  : 'type',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please choose a type'
-                                }
-                            ]
+    $('.ui.form')
+        .form({
+            on: 'blur',
+            fields: {
+                name: {
+                    identifier  : 'name',
+                    rules: [
+                        {
+                            type   : 'empty',
+                            prompt : 'Please enter a name'
                         }
-                    }
-                });
+                    ]
+                },
+                description: {
+                    identifier  : 'description',
+                    rules: [
+                        {
+                            type   : 'empty',
+                            prompt : 'Please enter a description'
+                        }
+                    ]
+                },
+                type: {
+                    identifier  : 'type',
+                    rules: [
+                        {
+                            type   : 'empty',
+                            prompt : 'Please choose a type'
+                        }
+                    ]
+                }
+            }
         });
-    </script>
 @endpush

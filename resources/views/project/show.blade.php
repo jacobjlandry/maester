@@ -81,12 +81,8 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.reply-link').on('click', function(e) {
-                $('.comment-reply').hide();
-                $(e.currentTarget).siblings().show();
-            });
-        });
-    </script>
+    $('.reply-link').on('click', function(e) {
+        $('.comment-reply').hide();
+        $(e.currentTarget).siblings().show();
+    });
 @endpush

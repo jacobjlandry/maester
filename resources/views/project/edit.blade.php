@@ -115,67 +115,63 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#submit').on('click', function(e) {
-                $('.ui.form')
-                    .form({
-                        on: 'submit',
-                        fields: {
-                            name: {
-                                identifier  : 'name',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please enter a name'
-                                    }
-                                ]
-                            },
-                            description: {
-                                identifier  : 'description',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please enter a description'
-                                    }
-                                ]
-                            },
-                            type: {
-                                identifier  : 'type',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please choose a type'
-                                    }
-                                ]
+    $('#submit').on('click', function(e) {
+        $('.ui.form')
+            .form({
+                on: 'submit',
+                fields: {
+                    name: {
+                        identifier  : 'name',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please enter a name'
                             }
-                        }
-                    }).api({
-                        url: '{{ route('project.update', ['id' => $project->id ]) }}',
-                        data: $('#edit-form').serialize(),
-                        method: 'PUT',
-                        onSuccess: function() {
-                            location = '{{ route('project.show', ['id' => $project->id]) }}';
-                        }
-                    });
-            });
-
-            $('#delete').on('click', function(e) {
-                var validate = confirm("Are you sure you want to delete this project and all data associated with it? \r\n\r\nThis cannot be undone.");
-                if(validate) {
-                    $.ajax({
-                        url: '{{ route('project.destroy', ['id' => $project->id]) }}',
-                        data: { _token: '{{ csrf_token() }}' },
-                        method: 'DELETE',
-                        success: function() {
-                            location = '{{ route('project.index') }}';
-                        },
-                        error: function() {
-                            alert("Could not delete!");
-                        }
-                    });
+                        ]
+                    },
+                    description: {
+                        identifier  : 'description',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please enter a description'
+                            }
+                        ]
+                    },
+                    type: {
+                        identifier  : 'type',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please choose a type'
+                            }
+                        ]
+                    }
+                }
+            }).api({
+                url: '{{ route('project.update', ['id' => $project->id ]) }}',
+                data: $('#edit-form').serialize(),
+                method: 'PUT',
+                onSuccess: function() {
+                    location = '{{ route('project.show', ['id' => $project->id]) }}';
                 }
             });
-        });
-    </script>
+    });
+
+    $('#delete').on('click', function(e) {
+        var validate = confirm("Are you sure you want to delete this project and all data associated with it? \r\n\r\nThis cannot be undone.");
+        if(validate) {
+            $.ajax({
+                url: '{{ route('project.destroy', ['id' => $project->id]) }}',
+                data: { _token: '{{ csrf_token() }}' },
+                method: 'DELETE',
+                success: function() {
+                    location = '{{ route('project.index') }}';
+                },
+                error: function() {
+                    alert("Could not delete!");
+                }
+            });
+        }
+    });
 @endpush
