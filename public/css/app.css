@@ -105,6 +105,10 @@ html, body {
     padding-bottom: 5px;
     cursor: pointer;
     margin: 5px; }
+.modal .content .project-creator {
+  padding: 10px;
+  background: #BCDEFA;
+  border: thin solid #2779BD; }
 
 /** Project List Item */
 .project-list-item {

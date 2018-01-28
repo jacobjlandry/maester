@@ -41,7 +41,21 @@
     <div class="header">Manage {{ $project->name }}'s Team</div>
     <div class="content">
         <h3>Project Team</h3>
-        {{ $project->creator->name }} (creator)
+        <div class="ui list project-creator">
+            <div class="item user">
+                <div class="avatar image">
+                                <span class="fa-stack fa-sm">
+                                  <i class="fa fa-circle-o fa-stack-2x"></i>
+                                  <i class="fa fa-user fa-stack-1x"></i>
+                                </span>
+                </div>
+                <div class="content">
+                    <a class="header">{{ $project->creator->name }}</a>
+                    <div class="description">{{ $project->creator->email }} (creator)</div>
+                </div>
+            </div>
+        </div>
+
         <div id="project-team" class="container ui list">
             @foreach($project->users as $user)
                 @if($project->created_by != $user->id)
