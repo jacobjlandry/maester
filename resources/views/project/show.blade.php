@@ -8,7 +8,9 @@
             @if(Auth::user()->id != $project->creator->id && Auth::user()->project($project))
                 <a href="#" id="leaveProject" class="ui orange button">Leave Project</a>
             @endif
-            <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
+            @if(Auth::user()->id == $project->creator->id)
+                <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
+            @endif
         </div>
     </div>
     <div class="ui container raised segment">
