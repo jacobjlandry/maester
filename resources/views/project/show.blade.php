@@ -4,7 +4,12 @@
     <div class="ui container" style="display: flex; justify-content: space-between; align-items: center; align-content: center;">
         <a href="/project/{{ $project->id }}/readme" class="ui blue button">View Readme</a>
         <h2>View Project</h2>
-        <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
+        <div>
+            @if(Auth::user()->id != $project->creator->id && Auth::user()->project($project))
+                <a href="#" id="leaveProject" class="ui orange button">Leave Project</a>
+            @endif
+            <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
+        </div>
     </div>
     <div class="ui container raised segment">
         <div style="display: flex; flex-direction: column; width: 100%;">
@@ -84,5 +89,16 @@
     $('.reply-link').on('click', function(e) {
         $('.comment-reply').hide();
         $(e.currentTarget).siblings().show();
+    });
+
+    $('#leaveProject').on('click', function(e) {
+        $.ajax({
+            type: "POST",
+            url: '/projectuser',
+            data: { 'user_id' : {{ Auth::user()->id }}, 'project_id' : {{ $project->id }}, 'type' : 'detach' },
+            success: function() {
+                window.location = '/';
+            }
+        });
     });
 @endpush

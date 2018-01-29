@@ -71,6 +71,27 @@ class User extends Authenticatable
     }
 
     /**
+     * Return all projects this user is attached to
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany('\App\Project');
+    }
+
+    /**
+     * Determine if we are attached to a specific project
+     *
+     * @param Project $project
+     * @return bool
+     */
+    public function project(Project $project)
+    {
+        return $this->projects->pluck('id')->search($project->id) !== false;
+    }
+
+    /**
      * Return all users not attached to a particular project
      *
      * @param Project $project
