@@ -14,6 +14,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         'App\Model' => 'App\Policies\ModelPolicy',
+        'App\Project' => 'App\Policies\ProjectPolicy'
     ];
 
     /**
@@ -24,10 +25,5 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        // only project owner can update project
-        Gate::define('update-project', function ($user, $project) {
-            return $user->id == $project->creator;
-        });
     }
 }

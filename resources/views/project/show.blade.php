@@ -5,10 +5,10 @@
         <a href="/project/{{ $project->id }}/readme" class="ui blue button">View Readme</a>
         <h2>View Project</h2>
         <div>
-            @if(Auth::user()->id != $project->creator->id && Auth::user()->project($project))
+            @if(Auth::user()->id != $project->creator->id && Auth::user()->can('update', $project))
                 <a href="#" id="leaveProject" class="ui orange button">Leave Project</a>
             @endif
-            @if(Auth::user()->id == $project->creator->id)
+            @if(Auth::user()->can('update', $project))
                 <a href="/project/{{ $project->id }}/edit" class="ui green button">Edit Project</a>
             @endif
         </div>
@@ -71,16 +71,18 @@
                     @foreach($project->comments->where('parent_id', null) as $comment)
                         @component('comment.show', ['comment' => $comment, 'object' => $project, 'action' => route('project.comment')])@endcomponent
                     @endforeach
-                    <form action="{{ route('project.comment') }}" method="POST" class="ui reply form">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="object_id" value="{{ $project->id }}" />
-                        <div class="field">
-                            <textarea name="comment"></textarea>
-                        </div>
-                        <button type="submit" class="ui blue labeled submit icon button">
-                            <i class="icon edit"></i> Add Comment
-                        </button>
-                    </form>
+                    @if(Auth::user()->can('update', $project))
+                        <form action="{{ route('project.comment') }}" method="POST" class="ui reply form">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="object_id" value="{{ $project->id }}" />
+                            <div class="field">
+                                <textarea name="comment"></textarea>
+                            </div>
+                            <button type="submit" class="ui blue labeled submit icon button">
+                                <i class="icon edit"></i> Add Comment
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

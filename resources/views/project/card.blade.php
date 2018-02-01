@@ -37,7 +37,7 @@
     </div>
 </div>
 
-@if(Auth::user()->id == $project->creator->id)
+@if(Auth::user()->can('update', $project))
     <div class="ui modal">
         <div class="header">Manage {{ $project->name }}'s Team</div>
         <div class="content">
@@ -107,7 +107,7 @@
 @endif
 
 @push('scripts')
-    @if(Auth::user()->id == $project->creator->id)
+    @if(Auth::user()->can('update', $project))
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'

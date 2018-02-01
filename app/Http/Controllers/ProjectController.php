@@ -6,6 +6,7 @@ use App\Project;
 use App\ProjectComment;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Facades\Gate;
 
 class ProjectController extends Controller
 {
@@ -85,8 +86,13 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        return view('project.edit')
-            ->with('project', $project);
+        if (Auth::user()->can('update', $project)) {
+            return view('project.edit')
+                ->with('project', $project);
+        }
+        else {
+            abort(403, 'You are not authorized to edit ' . $project->name);
+        }
     }
 
     /**
@@ -98,26 +104,31 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        $request->validate([
-            'name' => 'required|max:255',
-            'description' => 'required|max:255',
-            'type' => 'required'
-        ]);
+        if (Auth::user()->can('update', $project)) {
+            $request->validate([
+                'name' => 'required|max:255',
+                'description' => 'required|max:255',
+                'type' => 'required'
+            ]);
 
-        $project->update([
-            'name' => $request->input('name'),
-            'description' => $request->input('description'),
-            'type' => $request->input('type'),
-            'icon' => $request->input('icon') ?: 'globe',
-            'readme' => $request->input('readme'),
-            'source_code_url' => $request->input('source_code_url'),
-            'production_url' => $request->input('production_url'),
-            'test_url' => $request->input('test_url'),
-            'dev_url' => $request->input('dev_url'),
-            'created_by' => Auth::user()->id
-        ]);
+            $project->update([
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+                'type' => $request->input('type'),
+                'icon' => $request->input('icon') ?: 'globe',
+                'readme' => $request->input('readme'),
+                'source_code_url' => $request->input('source_code_url'),
+                'production_url' => $request->input('production_url'),
+                'test_url' => $request->input('test_url'),
+                'dev_url' => $request->input('dev_url'),
+                'created_by' => Auth::user()->id
+            ]);
 
-        return json_encode(['success' => true]);
+            return json_encode(['success' => true]);
+        }
+        else {
+            abort(403, 'You are not authorized to edit ' . $project->name);
+        }
     }
 
     /**
@@ -128,10 +139,15 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        $project->comments()->delete();
-        $project->tasks()->delete();
-        $project->releases()->delete();
-        $project->delete();
+        if(Auth::user()->can('destroy')) {
+            $project->comments()->delete();
+            $project->tasks()->delete();
+            $project->releases()->delete();
+            $project->delete();
+        }
+        else {
+            abort(403, 'You are not authorized to delete ' . $project->name);
+        }
     }
 
     /**
@@ -142,19 +158,24 @@ class ProjectController extends Controller
      */
     public function comment(Request $request)
     {
-        $request->validate([
-            'comment' => 'required|max:255',
-            'object_id' => 'required'
-        ]);
+        if(Auth::user()->can('update')) {
+            $request->validate([
+                'comment' => 'required|max:255',
+                'object_id' => 'required'
+            ]);
 
-        ProjectComment::create([
-            'user_id' => Auth::user()->id,
-            'project_id' => $request->input('object_id'),
-            'comment' => $request->input('comment'),
-            'parent_id' => $request->has('parent') ? $request->input('parent') : null
-        ]);
+            ProjectComment::create([
+                'user_id' => Auth::user()->id,
+                'project_id' => $request->input('object_id'),
+                'comment' => $request->input('comment'),
+                'parent_id' => $request->has('parent') ? $request->input('parent') : null
+            ]);
 
-        return redirect(route('project.show', ['id' => $request->input('object_id')]));
+            return redirect(route('project.show', ['id' => $request->input('object_id')]));
+        }
+        else {
+            abort(403, 'You are not allowed to comment on this project');
+        }
     }
 
     /*
