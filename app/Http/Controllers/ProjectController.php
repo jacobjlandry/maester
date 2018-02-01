@@ -74,8 +74,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('project.show')
-            ->with('project', $project);
+        if(Auth::user()->can('view', $project)) {
+            return view('project.show')
+                ->with('project', $project);
+        }
+        else {
+            abort(403, 'You are not authorized to view ' . $project->name);
+        }
     }
 
     /**

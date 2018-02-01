@@ -31,7 +31,10 @@ class ProjectPolicy
      */
     public function view(User $user, Project $project)
     {
-        return true;
+        return (
+            $user->id == $project->creator->id ||
+            $project->users->pluck('id')->search($user->id) !== false
+        );
     }
 
     /**
