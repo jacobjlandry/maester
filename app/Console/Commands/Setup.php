@@ -39,12 +39,15 @@ class Setup extends Command
     public function handle()
     {
         $this->info('Inserting default roles');
-        $this->comment('[admin, developer]');
+        $this->comment('[admin, developer, user]');
         Role::create([
             'name' => 'admin'
         ]);
         Role::create([
             'name' => 'developer'
+        ]);
+        Role::create([
+            'name' => 'user'
         ]);
 
         $this->info('Complete');

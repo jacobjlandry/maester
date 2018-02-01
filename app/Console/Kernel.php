@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         \JacobLandry\CRUDley\Commands\CRUDley::class,
         \App\Console\Commands\Setup::class,
+        \App\Console\Commands\CreateAdmin::class,
     ];
 
     /**

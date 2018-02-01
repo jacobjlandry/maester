@@ -16,7 +16,7 @@ class Bouncer
      */
     public function handle($request, Closure $next, $role)
     {
-        if(Auth::user() && Auth::user()->role($role)) {
+        if(Auth::user() && (Auth::user()->role($role) || Auth::user()->role('admin'))) {
             return $next($request);
         }
         else {
