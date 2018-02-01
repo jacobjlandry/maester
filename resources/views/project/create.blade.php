@@ -39,6 +39,8 @@
                         <i class="dropdown icon"></i>
                         <div class="menu">
                             <div class="item" data-value="web">Web</div>
+                            <div class="item" data-value="ios">iOS</div>
+                            <div class="item" data-value="package">Package</div>
                             <div class="item" data-value="writing">Writing</div>
                         </div>
                     </div>
