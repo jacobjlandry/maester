@@ -109,110 +109,106 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ui.dropdown').dropdown();
-            $('#task-type').on('change', function(e) {
-                if($('#task-type').val() == "bug") {
-                    $('#bug-detail').show();
-                    $('#feature-detail').hide();
-                }
-                else if($('#task-type').val() == "feature") {
-                    $('#bug-detail').hide();
-                    $('#feature-detail').show();
-                }
-            });
+    $('.ui.dropdown').dropdown();
+    $('#task-type').on('change', function(e) {
+        if($('#task-type').val() == "bug") {
+            $('#bug-detail').show();
+            $('#feature-detail').hide();
+        }
+        else if($('#task-type').val() == "feature") {
+            $('#bug-detail').hide();
+            $('#feature-detail').show();
+        }
+    });
 
-            $("input:text", '.file').click(function() {
-                $(this).parent().find("input:file").click();
-            });
+    $("input:text", '.file').click(function() {
+        $(this).parent().find("input:file").click();
+    });
 
-            $('input:file', '.file')
-                .on('change', function(e) {
-                    var name = e.target.files[0].name;
-                    $('input:text', $(e.target).parent()).val(name);
-                });
-
-            $('#submit').on('click', function(e) {
-                $('.ui.form')
-                    .form({
-                        on: 'blur',
-                        fields: {
-                            project: {
-                                identifier  : 'project_id',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please choose a project'
-                                    }
-                                ]
-                            },
-                            title: {
-                                identifier  : 'title',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please enter a title'
-                                    }
-                                ]
-                            },
-                            description: {
-                                identifier  : 'description',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please enter a description'
-                                    }
-                                ]
-                            },
-                            type: {
-                                identifier  : 'type',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please choose a type'
-                                    }
-                                ]
-                            },
-                            detail: {
-                                identifier  : 'detail',
-                                rules: [
-                                    {
-                                        type   : 'empty',
-                                        prompt : 'Please provide details or steps to reproduce'
-                                    }
-                                ]
-                            }
-                        }
-                    }).api({
-                        url: '{{ route('task.update', ['id' => $task->id ]) }}',
-                        data: $('#edit-form').serialize(),
-                        method: 'PUT',
-                        onSuccess: function() {
-                            location = '{{ route('task.show', ['id' => $task->id]) }}';
-                        }
-                    });
-            });
-
-            $('#delete').on('click', function(e) {
-                $.ajax({
-                    url: '{{ route('task.destroy', ['id' => $task->id]) }}',
-                    data: { _token: '{{ csrf_token() }}' },
-                    method: 'DELETE',
-                    success: function() {
-                        location = '{{ route('task.index') }}';
-                    },
-                    error: function() {
-                        alert("Could not delete!");
-                    }
-                })
-            });
-
-            /** show file modal **/
-            $('.uploaded-file').on('click', function(e) {
-                var modalId = $(e.currentTarget).attr('modal');
-                $('#fileModal' + modalId).modal('show');
-            });
+    $('input:file', '.file')
+        .on('change', function(e) {
+            var name = e.target.files[0].name;
+            $('input:text', $(e.target).parent()).val(name);
         });
-    </script>
+
+    $('#submit').on('click', function(e) {
+        $('.ui.form')
+            .form({
+                on: 'blur',
+                fields: {
+                    project: {
+                        identifier  : 'project_id',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please choose a project'
+                            }
+                        ]
+                    },
+                    title: {
+                        identifier  : 'title',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please enter a title'
+                            }
+                        ]
+                    },
+                    description: {
+                        identifier  : 'description',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please enter a description'
+                            }
+                        ]
+                    },
+                    type: {
+                        identifier  : 'type',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please choose a type'
+                            }
+                        ]
+                    },
+                    detail: {
+                        identifier  : 'detail',
+                        rules: [
+                            {
+                                type   : 'empty',
+                                prompt : 'Please provide details or steps to reproduce'
+                            }
+                        ]
+                    }
+                }
+            }).api({
+                url: '{{ route('task.update', ['id' => $task->id ]) }}',
+                data: $('#edit-form').serialize(),
+                method: 'PUT',
+                onSuccess: function() {
+                    location = '{{ route('task.show', ['id' => $task->id]) }}';
+                }
+            });
+    });
+
+    $('#delete').on('click', function(e) {
+        $.ajax({
+            url: '{{ route('task.destroy', ['id' => $task->id]) }}',
+            data: { _token: '{{ csrf_token() }}' },
+            method: 'DELETE',
+            success: function() {
+                location = '{{ route('task.index') }}';
+            },
+            error: function() {
+                alert("Could not delete!");
+            }
+        })
+    });
+
+    /** show file modal **/
+    $('.uploaded-file').on('click', function(e) {
+        var modalId = $(e.currentTarget).attr('modal');
+        $('#fileModal' + modalId).modal('show');
+    });
 @endpush

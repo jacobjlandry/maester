@@ -115,81 +115,77 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ui.dropdown').dropdown();
-            $('#task-type').on('change', function(e) {
-                if($('#task-type').val() == "bug") {
-                    $('#bug-detail').show();
-                    $('#feature-detail').hide();
-                }
-                else if($('#task-type').val() == "feature") {
-                    $('#bug-detail').hide();
-                    $('#feature-detail').show();
-                }
-            });
+$('.ui.dropdown').dropdown();
+$('#task-type').on('change', function(e) {
+    if($('#task-type').val() == "bug") {
+        $('#bug-detail').show();
+        $('#feature-detail').hide();
+    }
+    else if($('#task-type').val() == "feature") {
+        $('#bug-detail').hide();
+        $('#feature-detail').show();
+    }
+});
 
-            $("input:text", '.file').click(function() {
-                $(this).parent().find("input:file").click();
-            });
+$("input:text", '.file').click(function() {
+    $(this).parent().find("input:file").click();
+});
 
-            $('input:file', '.file')
-                .on('change', function(e) {
-                    var name = e.target.files[0].name;
-                    $('input:text', $(e.target).parent()).val(name);
-                });
+$('input:file', '.file')
+    .on('change', function(e) {
+        var name = e.target.files[0].name;
+        $('input:text', $(e.target).parent()).val(name);
+    });
 
-            $('.ui.form')
-                .form({
-                    on: 'blur',
-                    fields: {
-                        project: {
-                            identifier  : 'project_id',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please choose a project'
-                                }
-                            ]
-                        },
-                        title: {
-                            identifier  : 'title',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please enter a title'
-                                }
-                            ]
-                        },
-                        description: {
-                            identifier  : 'description',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please enter a description'
-                                }
-                            ]
-                        },
-                        type: {
-                            identifier  : 'type',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please choose a type'
-                                }
-                            ]
-                        },
-                        detail: {
-                            identifier  : 'detail',
-                            rules: [
-                                {
-                                    type   : 'empty',
-                                    prompt : 'Please provide details or steps to reproduce'
-                                }
-                            ]
-                        }
+$('.ui.form')
+    .form({
+        on: 'blur',
+        fields: {
+            project: {
+                identifier  : 'project_id',
+                rules: [
+                    {
+                        type   : 'empty',
+                        prompt : 'Please choose a project'
                     }
-                });
-        });
-    </script>
+                ]
+            },
+            title: {
+                identifier  : 'title',
+                rules: [
+                    {
+                        type   : 'empty',
+                        prompt : 'Please enter a title'
+                    }
+                ]
+            },
+            description: {
+                identifier  : 'description',
+                rules: [
+                    {
+                        type   : 'empty',
+                        prompt : 'Please enter a description'
+                    }
+                ]
+            },
+            type: {
+                identifier  : 'type',
+                rules: [
+                    {
+                        type   : 'empty',
+                        prompt : 'Please choose a type'
+                    }
+                ]
+            },
+            detail: {
+                identifier  : 'detail',
+                rules: [
+                    {
+                        type   : 'empty',
+                        prompt : 'Please provide details or steps to reproduce'
+                    }
+                ]
+            }
+        }
+    });
 @endpush
