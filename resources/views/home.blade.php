@@ -14,7 +14,15 @@
                         </div>
                     @endif
 
-                    You are logged in!
+                    @foreach($projects as $project)
+                        <div class="column" style="padding-top: 7px; padding-bottom: 7px;">
+                            @component('project.card', ['project' => $project]) @endcomponent
+                        </div>
+                    @endforeach
+
+                    @if(!$projects->count())
+                        There's nothing here, boss.  Create some cool projects!
+                    @endif
                 </div>
             </div>
         </div>

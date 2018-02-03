@@ -15,9 +15,7 @@ Auth::routes();
 
 Route::middleware(['bouncer:user'])->group(function() {
     Route::get('/', function () {
-        $projects = App\Project::all();
-        return view('welcome')
-            ->with('projects', $projects);
+        return view('welcome');
     });
 
     Route::resource('project', 'ProjectController');

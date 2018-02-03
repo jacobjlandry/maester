@@ -17,7 +17,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Auth::user()->projects;
+        $projects = Project::all()
+            ->filter(function($project) {
+                return Auth::user()->can('view', $project);
+            });
 
         return view('project.list')
             ->with('projects', $projects);
