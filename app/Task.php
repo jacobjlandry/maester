@@ -29,12 +29,12 @@ class Task extends Model
         return $this->hasOne('App\Release');
     }
 
-    public function createdBy()
+    public function creator()
     {
         return $this->hasOne('\App\User', 'id', 'created_by');
     }
 
-    public function ownedBy()
+    public function owner()
     {
         return $this->hasOne('\App\User', 'id', 'owned_by');
     }

@@ -100,46 +100,46 @@ html, body {
   border: thin dashed #ccc;
   padding: 5px;
   min-height: 50px; }
-  .modal .content .container .user {
-    padding-top: 5px;
-    padding-bottom: 5px;
-    cursor: pointer;
-    margin: 5px; }
-.modal .content .project-creator {
+.modal .content .user {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  cursor: pointer;
+  margin: 5px; }
+.modal .content .project-creator, .modal .content .task-creator {
   padding: 10px;
   background: #BCDEFA;
   border: thin solid #2779BD; }
 
 /** Project List Item */
-.project-list-item {
+.project-list-item, .task-list-item {
   display: flex;
   flex-direction: row;
   justify-content: space-between; }
-  .project-list-item .title a {
+  .project-list-item .title a, .task-list-item .title a {
     display: flex;
     flex-direction: row;
     color: #636b6f; }
-  .project-list-item .title a:hover {
+  .project-list-item .title a:hover, .task-list-item .title a:hover {
     color: #1e70bf; }
-  .project-list-item .title .name {
+  .project-list-item .title .name, .task-list-item .title .name {
     padding-left: 7px; }
-  .project-list-item .actions {
+  .project-list-item .actions, .task-list-item .actions {
     display: flex;
     flex-direction: row;
     justify-content: space-between; }
-    .project-list-item .actions .item {
+    .project-list-item .actions .item, .task-list-item .actions .item {
       padding-left: 15px; }
-    .project-list-item .actions .bugs {
+    .project-list-item .actions .bugs, .task-list-item .actions .bugs {
       text-align: center; }
-      .project-list-item .actions .bugs a {
+      .project-list-item .actions .bugs a, .task-list-item .actions .bugs a {
         color: #db2828; }
-    .project-list-item .actions .features {
+    .project-list-item .actions .features, .task-list-item .actions .features {
       text-align: center; }
-      .project-list-item .actions .features a {
+      .project-list-item .actions .features a, .task-list-item .actions .features a {
         color: #21ba45; }
-    .project-list-item .actions .users {
+    .project-list-item .actions .users, .task-list-item .actions .users {
       text-align: center; }
-      .project-list-item .actions .users a {
+      .project-list-item .actions .users a, .task-list-item .actions .users a {
         color: #2185d0; }
 
 /** Task Card */

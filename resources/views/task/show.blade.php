@@ -72,34 +72,30 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('.reply-link').on('click', function(e) {
-                $('.comment-reply').hide();
-                $(e.currentTarget).siblings().show();
-            });
+    $('.reply-link').on('click', function(e) {
+        $('.comment-reply').hide();
+        $(e.currentTarget).siblings().show();
+    });
 
-            /** show file modal **/
-            $('.file').on('click', function(e) {
-                var modalId = $(e.currentTarget).attr('modal');
-                $('#fileModal' + modalId).modal('show');
-            });
+    /** show file modal **/
+    $('.file').on('click', function(e) {
+        var modalId = $(e.currentTarget).attr('modal');
+        $('#fileModal' + modalId).modal('show');
+    });
 
-            $('.update-status').on('click', function(e) {
-                var status = $(e.currentTarget).attr('status');
+    $('.update-status').on('click', function(e) {
+        var status = $(e.currentTarget).attr('status');
 
-                $.ajax({
-                    url: '{{ route('task.status', ['id' => $task->id ]) }}',
-                    data: { 'status': status, 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
-                    method: 'PATCH',
-                    success: function() {
-                        location.reload();
-                    },
-                    error: function() {
-                        alert("Could not update!");
-                    }
-                });
-            });
+        $.ajax({
+            url: '{{ route('task.status', ['id' => $task->id ]) }}',
+            data: { 'status': status, 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
+            method: 'PATCH',
+            success: function() {
+                location.reload();
+            },
+            error: function() {
+                alert("Could not update!");
+            }
         });
-    </script>
+    });
 @endpush

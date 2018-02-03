@@ -172,6 +172,17 @@ class TaskController extends Controller
         ]);
     }
 
+    public function assign(Request $request, Task $task)
+    {
+        $request->validate([
+            'owner_id' => 'required'
+        ]);
+
+        $task->update([
+            'owned_by' => $request->input('owner_id')
+        ]);
+    }
+
     /**
      * Remove the specified resource from storage.
      *
