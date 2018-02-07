@@ -7,6 +7,9 @@
     </div>
     <div class="content">
         <div class="meta">
+            Current Owner: {{ $task->owner->name }}
+        </div>
+        <div class="meta">
             <span class="date">Created by {{ $task->creator->name }} on {{ $task->created_at->toDateString() }}</span>
         </div>
         <div class="description">
