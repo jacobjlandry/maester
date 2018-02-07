@@ -62,6 +62,23 @@
                     </div>
                 </div>
             </div>
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div style="width: 15%; display: flex; align-items: center;">
+                    Priority
+                </div>
+                <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
+                    <div class="ui dropdown fluid selection">
+                        <input id="task-type" type="hidden" name="priority" value="">
+                        <div class="default text">Priority</div>
+                        <i class="dropdown icon"></i>
+                        <div class="menu">
+                            <div class="item" data-value="highest">Highest</div>
+                            <div class="item" data-value="normal">Normal</div>
+                            <div class="item" data-value="lowest">Lowest</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     <div id="bug-detail" style="display: none;">Steps to Recreate</div>
@@ -174,6 +191,15 @@ $('.ui.form')
                     {
                         type   : 'empty',
                         prompt : 'Please choose a type'
+                    }
+                ]
+            },
+            priority: {
+                identifier  : 'priority',
+                rules: [
+                    {
+                        type   : 'empty',
+                        prompt : 'Please choose a priority'
                     }
                 ]
             },

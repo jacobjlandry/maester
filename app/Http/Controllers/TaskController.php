@@ -56,6 +56,7 @@ class TaskController extends Controller
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'type' => 'required',
+            'priority' => 'required',
             'detail' => 'required',
             'project_id' => 'required',
             'created_by' => 'required'
@@ -65,6 +66,7 @@ class TaskController extends Controller
             'title' => $request->input('title'),
             'description' => $request->input('description'),
             'type' => $request->input('type'),
+            'priority' => $request->input('priority'),
             'detail' => $request->input('detail'),
             'created_by' => $request->input('created_by'),
             'owned_by' => $request->input('created_by'),
@@ -147,6 +149,7 @@ class TaskController extends Controller
                 'title' => 'required|max:255',
                 'description' => 'required|max:255',
                 'type' => 'required',
+                'priority' => 'required',
                 'detail' => 'required',
                 'project_id' => 'required',
                 'modified_by' => 'required'
@@ -156,6 +159,7 @@ class TaskController extends Controller
                 'title' => $request->input('title'),
                 'description' => $request->input('description'),
                 'type' => $request->input('type'),
+                'priority' => $request->input('priority'),
                 'detail' => $request->input('detail'),
                 'project_id' => $request->input('project_id'),
                 'modified_by' => $request->input('modified_by')

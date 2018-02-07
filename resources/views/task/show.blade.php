@@ -17,6 +17,9 @@
                     <h4>Status</h4>
                     {{ ucwords($task->status) }}
 
+                    <h4>Priority</h4>
+                    {{ ucwords($task->priority) }}
+
                     <h4>@if($task->type == 'bug') Steps to Reproduce @else Details @endif</h4>
                     {!! preg_replace("/\r\n/", "<br />", $task->detail) !!}
 
