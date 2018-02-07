@@ -105,12 +105,19 @@
         });
 
         $('.assign').on('click', function(e) {
+            // reset styles
+            $('.assign').text('Assign');
+            $('.assign').removeClass('positive');
+            $('.assign').addClass('primary');
+
             var userId = $(e.currentTarget).attr('user_id');
             $.post({
                 url: '{{ route('task.assign', ['task' => $task->id]) }}',
                 data: { 'owner_id': userId, '_token': '{{ csrf_token() }}' },
                 success: function() {
-                    console.log('complete');
+                    $(e.currentTarget).removeClass('primary');
+                    $(e.currentTarget).addClass('positive');
+                    $(e.currentTarget).html('<i class="fa fa-check"></i>');
                 }
             });
         });
