@@ -212,6 +212,12 @@ class TaskController extends Controller
                 'owner_id' => 'required'
             ]);
 
+            TaskNote::create([
+                'task_id' => $task->id,
+                'user_id' => $request->input('user_id'),
+                'note' => "owner changed {$task->owner->name} => " . \App\User::find($request->input('owner_id'))->name,
+            ]);
+
             $task->update([
                 'owned_by' => $request->input('owner_id')
             ]);

@@ -113,7 +113,7 @@
             var userId = $(e.currentTarget).attr('user_id');
             $.post({
                 url: '{{ route('task.assign', ['task' => $task->id]) }}',
-                data: { 'owner_id': userId, '_token': '{{ csrf_token() }}' },
+                data: { 'owner_id': userId, 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
                 success: function() {
                     $(e.currentTarget).removeClass('primary');
                     $(e.currentTarget).addClass('positive');
