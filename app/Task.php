@@ -70,4 +70,16 @@ class Task extends Model
     {
         return $this->hasMany('\App\TaskNote');
     }
+
+    public function statusColor()
+    {
+        switch($this->status) {
+            case 'complete':
+                return 'green';
+                break;
+            case 'rejected':
+                return 'red';
+                break;
+        }
+    }
 }

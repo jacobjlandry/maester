@@ -43,6 +43,26 @@
                             @endif
                         </div>
                     </div>
+                    <div class="ticket-list" style="padding-bottom: 15px;">
+                        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                            <div>
+                                <h4>Closed Tickets</h4>
+                            </div>
+                        </div>
+                        <div class="ui vertical pointing menu" style="width: 100%;">
+                            @foreach($project->tasks()->onlyTrashed()->get() as $task)
+                                <div class="item" style="display: flex; flex-direction: row; justify-content: space-between;">
+                                    <div><i class="fa fa-{{ $task->fontawesome()  }} {{ $task->type }}"></i> &nbsp; {{ $task->title }}</div>
+                                    <div><div class="ui {{ $task->statusColor() }} horizontal label">{{ ucwords($task->status) }}</div></div>
+                                </div>
+                            @endforeach
+                            @if(!$project->tasks()->onlyTrashed()->get()->count())
+                                <a class="item" href="#">
+                                    No tasks yet, boss. Get those minions to work!
+                                </a>
+                            @endif
+                        </div>
+                    </div>
                     <div class="imcomplete-release-list" style="padding-bottom: 15px;">
                         <h4>Planned Releases</h4>
                         <div class="ui vertical pointing menu" style="width: 100%;">
