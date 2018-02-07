@@ -166,7 +166,7 @@ class ProjectController extends Controller
      */
     public function comment(Request $request)
     {
-        if(Auth::user()->can('update')) {
+        if(Auth::user()->can('update', Project::find($request->input('object_id')))) {
             $request->validate([
                 'comment' => 'required|max:255',
                 'object_id' => 'required'

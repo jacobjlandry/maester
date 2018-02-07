@@ -3,7 +3,9 @@
 @section('content')
     <div class="ui container" style="display: flex; justify-content: space-between;">
         <div></div>
-        <a href="/task/{{ $task->id }}/edit" class="ui green button">Edit Task</a>
+        @if(Auth::user()->can('update', $task))
+            <a href="/task/{{ $task->id }}/edit" class="ui green button">Edit Task</a>
+        @endif
     </div>
     <div class="ui container raised segment">
         <div style="display: flex; flex-direction: column; width: 100%;">
@@ -16,7 +18,7 @@
                     {{ ucwords($task->status) }}
 
                     <h4>@if($task->type == 'bug') Steps to Reproduce @else Details @endif</h4>
-                    {{ $task->detail }}
+                    {!! preg_replace("/\r\n/", "<br />", $task->detail) !!}
 
                     @if($task->files->count())
                         <h4>Files</h4>
@@ -30,11 +32,13 @@
                         </div>
                     @endif
 
-                    <h4>Actions</h4>
-                    @if($task->status == 'new' || $task->status == 'paused')
-                        <button class="ui blue button update-status" status="in progress">Start Work</button>
-                    @else
-                        <button class="ui blue button update-status" status="paused">Stop Work</button>
+                    @if(Auth::user()->id == $task->owner->id)
+                        <h4>Actions</h4>
+                        @if($task->status == 'new' || $task->status == 'paused')
+                            <button class="ui blue button update-status" status="in progress">Start Work</button>
+                        @elseif($task->status == "in progress")
+                            <button class="ui blue button update-status" status="paused">Stop Work</button>
+                        @endif
                     @endif
 
                     @if($task->notes->count())
@@ -55,16 +59,18 @@
                     @foreach($task->comments->where('parent_id', null) as $comment)
                         @component('comment.show', ['comment' => $comment, 'object' => $task, 'action' => route('task.comment')])@endcomponent
                     @endforeach
-                    <form action="{{ route('task.comment') }}" method="POST" class="ui reply form">
-                        {{ csrf_field() }}
-                        <input type="hidden" name="object_id" value="{{ $task->id }}" />
-                        <div class="field">
-                            <textarea name="comment"></textarea>
-                        </div>
-                        <button type="submit" class="ui blue labeled submit icon button">
-                            <i class="icon edit"></i> Add Comment
-                        </button>
-                    </form>
+                    @if(Auth::user()->can('update', $task))
+                        <form action="{{ route('task.comment') }}" method="POST" class="ui reply form">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="object_id" value="{{ $task->id }}" />
+                            <div class="field">
+                                <textarea name="comment"></textarea>
+                            </div>
+                            <button type="submit" class="ui blue labeled submit icon button">
+                                <i class="icon edit"></i> Add Comment
+                            </button>
+                        </form>
+                    @endif
                 </div>
             </div>
         </div>

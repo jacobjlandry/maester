@@ -119,7 +119,7 @@
                     $(e.currentTarget).addClass('positive');
                     $(e.currentTarget).html('<i class="fa fa-check"></i>');
                     setTimeout(function() {
-                        $('.ui.modal').modal('hide');
+                        location.reload();
                     }, 500);
                 }
             });

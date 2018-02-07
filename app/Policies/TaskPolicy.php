@@ -58,7 +58,11 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        //
+        return (
+            $user->id == $task->creator->id ||
+            $user->id == $task->project->creator->id ||
+            $task->project->users->pluck('id')->search($user->id) !== false
+        );
     }
 
     /**
@@ -70,6 +74,10 @@ class TaskPolicy
      */
     public function delete(User $user, Task $task)
     {
-        //
+        return (
+            $user->id == $task->creator->id ||
+            $user->id == $task->project->creator->id ||
+            $task->project->users->pluck('id')->search($user->id) !== false
+        );
     }
 }

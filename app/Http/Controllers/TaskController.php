@@ -19,7 +19,10 @@ class TaskController extends Controller
      */
     public function index()
     {
-        $tasks = Task::all();
+        $tasks = Task::all()
+            ->filter(function($task) {
+                return Auth::user()->can('view', $task);
+            });
 
         return view('task.list')
             ->with('tasks', $tasks);
@@ -32,7 +35,10 @@ class TaskController extends Controller
      */
     public function create()
     {
-        $projects = Project::all();
+        $projects = Project::all()
+            ->filter(function($project) {
+                return Auth::user()->can('view', $project);
+            });
 
         return view('task.create')
             ->with('projects', $projects);
@@ -95,8 +101,13 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return view('task.show')
-            ->with('task', $task);
+        if(Auth::user()->can('view', $task)) {
+            return view('task.show')
+                ->with('task', $task);
+        }
+        else {
+            abort(403, 'You are not authorized to view ' . $task->title);
+        }
     }
 
     /**
@@ -107,11 +118,19 @@ class TaskController extends Controller
      */
     public function edit(Task $task)
     {
-        $projects = Project::all();
+        if (Auth::user()->can('update', $task)) {
+            $projects = Project::all()
+                ->filter(function($project) {
+                    return Auth::user()->can('view', $project);
+                });
 
-        return view('task.edit')
-            ->with('projects', $projects)
-            ->with('task', $task);
+            return view('task.edit')
+                ->with('projects', $projects)
+                ->with('task', $task);
+        }
+        else {
+            abort(403, 'You are not authorized to edit ' . $task->title);
+        }
     }
 
     /**
@@ -123,25 +142,30 @@ class TaskController extends Controller
      */
     public function update(Request $request, Task $task)
     {
-        $request->validate([
-            'title' => 'required|max:255',
-            'description' => 'required|max:255',
-            'type' => 'required',
-            'detail' => 'required',
-            'project_id' => 'required',
-            'modified_by' => 'required'
-        ]);
+        if (Auth::user()->can('update', $task)) {
+            $request->validate([
+                'title' => 'required|max:255',
+                'description' => 'required|max:255',
+                'type' => 'required',
+                'detail' => 'required',
+                'project_id' => 'required',
+                'modified_by' => 'required'
+            ]);
 
-        $task->update([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'type' => $request->input('type'),
-            'detail' => $request->input('detail'),
-            'project_id' => $request->input('project_id'),
-            'modified_by' => $request->input('modified_by')
-        ]);
+            $task->update([
+                'title' => $request->input('title'),
+                'description' => $request->input('description'),
+                'type' => $request->input('type'),
+                'detail' => $request->input('detail'),
+                'project_id' => $request->input('project_id'),
+                'modified_by' => $request->input('modified_by')
+            ]);
 
-        return json_encode(['success' => true]);
+            return json_encode(['success' => true]);
+        }
+        else {
+            abort(403, 'You are not authorized to edit ' . $task->title);
+        }
     }
 
     /**
@@ -152,35 +176,45 @@ class TaskController extends Controller
      */
     public function updateStatus(Request $request, Task $task)
     {
-        $request->validate([
-            'status' => 'required',
-            'user_id' => 'required'
-        ]);
+        if (Auth::user()->can('update', $task)) {
+            $request->validate([
+                'status' => 'required',
+                'user_id' => 'required'
+            ]);
 
-        if(!$task->hasUser($request->input('user_id'))) {
-            $task->users()->attach($request->input('user_id'));
+            if (!$task->hasUser($request->input('user_id'))) {
+                $task->users()->attach($request->input('user_id'));
+            }
+
+            TaskNote::create([
+                'task_id' => $task->id,
+                'user_id' => $request->input('user_id'),
+                'note' => "status changed {$task->status} => {$request->input('status')}"
+            ]);
+
+            $task->update([
+                'status' => $request->input('status')
+            ]);
         }
-
-        TaskNote::create([
-            'task_id' => $task->id,
-            'user_id' => $request->input('user_id'),
-            'note' => "status changed {$task->status} => {$request->input('status')}"
-        ]);
-
-        $task->update([
-            'status' => $request->input('status')
-        ]);
+        else {
+            abort(403, 'You are not authorized to edit ' . $task->title);
+        }
     }
 
     public function assign(Request $request, Task $task)
     {
-        $request->validate([
-            'owner_id' => 'required'
-        ]);
+        if (Auth::user()->can('update', $task)) {
+            $request->validate([
+                'owner_id' => 'required'
+            ]);
 
-        $task->update([
-            'owned_by' => $request->input('owner_id')
-        ]);
+            $task->update([
+                'owned_by' => $request->input('owner_id')
+            ]);
+        }
+        else {
+            abort(403, 'You are not authorized to edit ' . $task->title);
+        }
     }
 
     /**
@@ -191,14 +225,19 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        // delete files attached to this task
-        $task->files->each(function($file) {
-            unlink(storage_path('app/' . $file->path));
-            $file->delete();
-        });
+        if (Auth::user()->can('delete', $task)) {
+            // delete files attached to this task
+            $task->files->each(function ($file) {
+                unlink(storage_path('app/' . $file->path));
+                $file->delete();
+            });
 
-        // delete task
-        $task->delete();
+            // delete task
+            $task->delete();
+        }
+        else {
+            abort(403, 'You are not authorized to edit ' . $task->title);
+        }
     }
 
     /**
@@ -209,18 +248,23 @@ class TaskController extends Controller
      */
     public function comment(Request $request)
     {
-        $request->validate([
-            'comment' => 'required|max:255',
-            'object_id' => 'required'
-        ]);
+        if (Auth::user()->can('update', Task::find($request->input('object_id')))) {
+            $request->validate([
+                'comment' => 'required|max:255',
+                'object_id' => 'required'
+            ]);
 
-        TaskComment::create([
-            'user_id' => Auth::user()->id,
-            'task_id' => $request->input('object_id'),
-            'comment' => $request->input('comment'),
-            'parent_id' => $request->has('parent') ? $request->input('parent') : null
-        ]);
+            TaskComment::create([
+                'user_id' => Auth::user()->id,
+                'task_id' => $request->input('object_id'),
+                'comment' => $request->input('comment'),
+                'parent_id' => $request->has('parent') ? $request->input('parent') : null
+            ]);
 
-        return redirect(route('task.show', ['id' => $request->input('object_id')]));
+            return redirect(route('task.show', ['id' => $request->input('object_id')]));
+        }
+        else {
+            abort(403, 'You are not authorized to comment on this task.');
+        }
     }
 }
