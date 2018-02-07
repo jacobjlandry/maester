@@ -78,7 +78,14 @@ class Task extends Model
                 return 'green';
                 break;
             case 'rejected':
+            case 'deleted':
                 return 'red';
+                break;
+            case 'new':
+                return 'yellow';
+                break;
+            case 'in progress':
+                return 'blue';
                 break;
         }
     }

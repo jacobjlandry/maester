@@ -256,6 +256,10 @@ class TaskController extends Controller
                 $file->delete();
             });
 
+            $task->update([
+                'status' => 'deleted'
+            ]);
+
             // delete task
             $task->delete();
         }

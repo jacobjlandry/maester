@@ -32,8 +32,9 @@
                         </div>
                         <div class="ui vertical pointing menu" style="width: 100%;">
                             @foreach($project->tasks as $task)
-                                <a class="item" href="/task/{{ $task->id }}">
-                                    <i class="fa fa-{{ $task->fontawesome()  }} {{ $task->type }}"></i> &nbsp; {{ $task->title }}
+                                <a class="item" href="/task/{{ $task->id }}" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+                                    <div><i class="fa fa-{{ $task->fontawesome()  }} {{ $task->type }}"></i> &nbsp; {{ $task->title }}</div>
+                                    <div><div class="ui {{ $task->statusColor() }} horizontal label">{{ ucwords($task->status) }}</div></div>
                                 </a>
                             @endforeach
                             @if(!$project->tasks->count())
@@ -51,7 +52,7 @@
                         </div>
                         <div class="ui vertical pointing menu" style="width: 100%;">
                             @foreach($project->tasks()->onlyTrashed()->get() as $task)
-                                <div class="item" style="display: flex; flex-direction: row; justify-content: space-between;">
+                                <div class="item" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                     <div><i class="fa fa-{{ $task->fontawesome()  }} {{ $task->type }}"></i> &nbsp; {{ $task->title }}</div>
                                     <div><div class="ui {{ $task->statusColor() }} horizontal label">{{ ucwords($task->status) }}</div></div>
                                 </div>
