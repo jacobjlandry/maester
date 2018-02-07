@@ -9,6 +9,7 @@ use App\TaskNote;
 use Illuminate\Http\Request;
 use App\TaskComment;
 use Auth;
+use Session;
 
 class TaskController extends Controller
 {
@@ -77,19 +78,25 @@ class TaskController extends Controller
             $uploadedFile = $request->file($key);
 
             $fileExtension = $uploadedFile->getClientOriginalExtension();
-            $fileName = preg_replace("/\.$fileExtension/", "", $uploadedFile->getClientOriginalName());
-            $storedFileName = rand(1,999) . '_' . $uploadedFile->getClientOriginalName();
 
-            $uploadedFile->storeAs('uploads', $storedFileName);
+            if(File::allowed($fileExtension)) {
+                $fileName = preg_replace("/\.$fileExtension/", "", $uploadedFile->getClientOriginalName());
+                $storedFileName = rand(1,999) . '_' . $uploadedFile->getClientOriginalName();
 
-            $file = File::create([
-                'task_id' => $task->id,
-                'name' => $fileName,
-                'extension' => $fileExtension,
-                'size' => $uploadedFile->getClientSize(),
-                'path' => '/uploads/' . $storedFileName,
-                'created_by' => $request->input('created_by')
-            ]);
+                $uploadedFile->storeAs('uploads', $storedFileName);
+
+                $file = File::create([
+                    'task_id' => $task->id,
+                    'name' => $fileName,
+                    'extension' => $fileExtension,
+                    'size' => $uploadedFile->getClientSize(),
+                    'path' => '/uploads/' . $storedFileName,
+                    'created_by' => $request->input('created_by')
+                ]);
+            }
+            else {
+                Session::flash('error', 'A file was not uploaded due to unsupported type ( ' . $fileExtension . ' )');
+            }
         };
 
         return redirect(route('project.show', ['id' => $request->input('project_id')]));
@@ -98,7 +105,7 @@ class TaskController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Task  $task
+     * @param  \App\Task  $task`
      * @return \Illuminate\Http\Response
      */
     public function show(Task $task)

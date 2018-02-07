@@ -29,6 +29,20 @@
         </script>
     </head>
     <body>
+        @if(Session::has('error'))
+            <div class="ui icon message negative">
+                <span class="fa-stack fa-2x">
+                    <i class="fa fa-circle-thin fa-stack-2x"></i>
+                    <i class="fa fa-exclamation fa-stack-1x"></i>
+                </span>
+                <div class="content" style="margin-left: 15px;">
+                    <div class="header">
+                        Sorry!
+                    </div>
+                    <p>{{ Session::get('error') }}</p>
+                </div>
+            </div>
+        @endif
         <div class="navigation">
             <div class="ui secondary menu nav-menu">
                 <a class="@if(active_nav('home')) active @endif item" href="/">

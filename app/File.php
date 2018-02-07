@@ -8,6 +8,8 @@ class File extends Model
 {
     protected $guarded = ['id'];
 
+    private static $extensions = ['txt', 'png', 'jpg', 'jpeg', 'gif', 'doc', 'docx', 'pages', 'xls', 'xlsx', 'pdf', 'md'];
+
     /**
      * Provide a FontAwesome icon for this file type
      *
@@ -92,5 +94,16 @@ class File extends Model
     public function contents()
     {
         return file_get_contents(storage_path('app/' . $this->path));
+    }
+
+    /**
+     * Verify we are allowed to accept this extension
+     *
+     * @param $extension
+     * @return bool
+     */
+    public static function allowed($extension)
+    {
+        return in_array($extension, self::$extensions);
     }
 }
