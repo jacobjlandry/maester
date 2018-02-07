@@ -42,6 +42,13 @@
                         @elseif($task->status == "in progress")
                             <button class="ui blue button update-status" status="paused">Stop Work</button>
                         @endif
+
+                        <br />
+
+                        <div class="ui buttons">
+                            <button class="ui button negative reject">Reject</button>
+                            <button class="ui button positive complete">Complete</button>
+                        </div>
                     @endif
 
                     @if($task->notes->count())
@@ -101,6 +108,34 @@
             method: 'PATCH',
             success: function() {
                 location.reload();
+            },
+            error: function() {
+                alert("Could not update!");
+            }
+        });
+    });
+
+    $('.reject').on('click', function(e) {
+        $.ajax({
+            url: '{{ route('task.status', ['id' => $task->id ]) }}',
+            data: { 'status': 'rejected', 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
+            method: 'PATCH',
+            success: function() {
+                window.location = '{{ route('project.show', ['id' => $task->project->id ]) }}';
+            },
+            error: function() {
+                alert("Could not update!");
+            }
+        });
+    });
+
+    $('.complete').on('click', function(e) {
+        $.ajax({
+            url: '{{ route('task.status', ['id' => $task->id ]) }}',
+            data: { 'status': 'complete', 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
+            method: 'PATCH',
+            success: function() {
+                window.location = '{{ route('project.show', ['id' => $task->project->id ]) }}';
             },
             error: function() {
                 alert("Could not update!");

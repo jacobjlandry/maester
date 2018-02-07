@@ -199,6 +199,13 @@ class TaskController extends Controller
             $task->update([
                 'status' => $request->input('status')
             ]);
+
+            switch($request->input('status')) {
+                case 'complete':
+                case 'rejected':
+                    $task->delete();
+                    break;
+            }
         }
         else {
             abort(403, 'You are not authorized to edit ' . $task->title);
