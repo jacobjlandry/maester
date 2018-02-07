@@ -118,6 +118,9 @@
                     $(e.currentTarget).removeClass('primary');
                     $(e.currentTarget).addClass('positive');
                     $(e.currentTarget).html('<i class="fa fa-check"></i>');
+                    setTimeout(function() {
+                        $('.ui.modal').modal('hide');
+                    }, 500);
                 }
             });
         });
