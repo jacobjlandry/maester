@@ -20,6 +20,11 @@
                     <h4>Priority</h4>
                     {{ ucwords($task->priority) }}
 
+                    @if($task->estimate)
+                        <h4>Estimate</h4>
+                        {{ $task->estimate }} {{ str_plural('hour', $task->estimate) }}
+                    @endif
+
                     <h4>@if($task->type == 'bug') Steps to Reproduce @else Details @endif</h4>
                     {!! preg_replace("/\r\n/", "<br />", $task->detail) !!}
 
@@ -32,6 +37,15 @@
                                 </a>
                                 @component('file.modal', ['file' => $file])@endcomponent
                             @endforeach
+                        </div>
+                    @endif
+
+                    @if($task->timeWorked() > 0 && in_array($task->status, ['in progress', 'paused']))
+                        <div class="ui @if($task->timeWorked() < $task->estimateInSeconds()) blue @else red @endif active progress" id="progressContainer" data-percent="{{ $task->completionPercent() }}">
+                            <div class="bar" id="progressBar" style="transition-duration: 300ms; width: {{ $task->completionPercent() }}%; max-width: 100%;">
+                                <div class="progress" id="progressNumber">{{ $task->completionPercent() }}%</div>
+                            </div>
+                            <div class="label">In Progress by {{ $task->owner->name }}</div>
                         </div>
                     @endif
 
@@ -142,4 +156,25 @@
             }
         });
     });
+
+    // update progress
+    setInterval(function() {
+        $.ajax({
+            url: '{{ route('task.progress', ['id' => $task->id ]) }}',
+            method: 'GET',
+            success: function(data) {
+                $('#progressContainer').attr('data-percent', data);
+                $('#progressBar').css('width', data + '%');
+                $('#progressNumber').text(data + '%');
+
+                if(data > 100) {
+                    $('#progressContainer').removeClass('blue');
+                    $('#progressContainer').addClass('red');
+                }
+            },
+            error: function() {
+                alert("Could not update!");
+            }
+        });
+    }, 5000);
 @endpush

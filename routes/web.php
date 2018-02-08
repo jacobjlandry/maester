@@ -26,6 +26,7 @@ Route::middleware(['bouncer:user'])->group(function() {
     Route::post('task/comment', 'TaskController@comment')->name('task.comment');
     Route::patch('task/{task}/status', 'TaskController@updateStatus')->name('task.status');
     Route::post('task/{task}/assign', 'TaskController@assign')->name('task.assign');
+    Route::get('task/{task}/progress', 'TaskController@progress')->name('task.progress');
     Route::resource('release', 'ReleaseController');
 
     Route::get('/home', 'HomeController@index')->name('home');

@@ -157,6 +157,7 @@ class TaskController extends Controller
                 'description' => 'required|max:255',
                 'type' => 'required',
                 'priority' => 'required',
+                'estimate' => 'integer',
                 'detail' => 'required',
                 'project_id' => 'required',
                 'modified_by' => 'required'
@@ -167,6 +168,7 @@ class TaskController extends Controller
                 'description' => $request->input('description'),
                 'type' => $request->input('type'),
                 'priority' => $request->input('priority'),
+                'estimate' => $request->input('estimate'),
                 'detail' => $request->input('detail'),
                 'project_id' => $request->input('project_id'),
                 'modified_by' => $request->input('modified_by')
@@ -294,5 +296,16 @@ class TaskController extends Controller
         else {
             abort(403, 'You are not authorized to comment on this task.');
         }
+    }
+
+    /**
+     * Get this tasks completion percent
+     *
+     * @param Task $task
+     * @return float
+     */
+    public function progress(Task $task)
+    {
+        return $task->completionPercent();
     }
 }

@@ -19,7 +19,7 @@ class TaskPolicy
      */
     public function before(User $user, $ability)
     {
-        return $user->role('admin');
+        return ($user->role('admin') ? $user->role('admin') : null);
     }
 
     /**

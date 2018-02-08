@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -88,5 +89,45 @@ class Task extends Model
                 return 'blue';
                 break;
         }
+    }
+
+    public function estimateInSeconds()
+    {
+        if($this->estimate) {
+            return $this->estimate * 1000;//3600;
+        }
+        else {
+            return 0;
+        }
+    }
+
+    public function timeWorked()
+    {
+        $notes = $this->notes
+            ->filter(function($row){
+                return preg_match("/in progress/", $row->note);
+            });
+
+        $work = $notes->filter(function($row) {
+                return preg_match('/=> in progress/', $row->note);
+            })->keys()
+            ->map(function($key) use($notes) {
+                $start = $notes[$key]->created_at;
+
+                if(isset($notes[$key + 1])) {
+                    $end = $notes[$key + 1]->created_at;
+                    return $start->diffInSeconds($end);
+                }
+                else {
+                    return $start->diffInSeconds(Carbon::now());
+                }
+            });
+
+        return $work->sum();
+    }
+
+    public function completionPercent()
+    {
+        return round(($this->timeWorked() / $this->estimateInSeconds()) * 100);
     }
 }

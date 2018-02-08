@@ -20,6 +20,7 @@ class CreateTasksTable extends Migration
             $table->string('type');
             $table->string('status')->default('new');
             $table->string('priority');
+            $table->integer('estimate')->nullable();
             $table->integer('project_id')->index();
             $table->integer('release_id')->nullable()->index();
             $table->string('detail');

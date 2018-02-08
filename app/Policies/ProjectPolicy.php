@@ -19,7 +19,7 @@ class ProjectPolicy
      */
     public function before($user, $ability)
     {
-        return $user->role('admin');
+        return ($user->role('admin') ? $user->role('admin') : null);
     }
 
     /**

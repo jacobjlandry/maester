@@ -60,23 +60,33 @@
                     </div>
                 </div>
             </div>
-            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
-                <div style="width: 15%; display: flex; align-items: center;">
-                    Priority
-                </div>
-                <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
-                    <div class="ui dropdown fluid selection">
-                        <input id="task-type" type="hidden" name="priority" value="{{ $task->priority }}">
-                        <div class="default text">{{ $task->priority }}</div>
-                        <i class="dropdown icon"></i>
-                        <div class="menu">
-                            <div class="item" data-value="highest">Highest</div>
-                            <div class="item" data-value="normal">Normal</div>
-                            <div class="item" data-value="lowest">Lowest</div>
+            @if($task->owner->id == Auth::user()->id)
+                <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="width: 15%; display: flex; align-items: center;">
+                        Priority
+                    </div>
+                    <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
+                        <div class="ui dropdown fluid selection">
+                            <input id="task-type" type="hidden" name="priority" value="{{ $task->priority }}">
+                            <div class="default text">{{ $task->priority }}</div>
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <div class="item" data-value="highest">Highest</div>
+                                <div class="item" data-value="normal">Normal</div>
+                                <div class="item" data-value="lowest">Lowest</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="width: 15%; display: flex; align-items: center;">
+                        Estimate
+                    </div>
+                    <div class="ui fluid icon input" style="width: 85%; display: flex; align-items: center; margin-bottom: 15px">
+                        <input name="estimate" type="text" placeholder="Hours" value="{{ $task->estimate }}">
+                    </div>
+                </div>
+            @endif
             <div class="field" style="display: flex; flex-direction: row; justify-content: space-between; margin-bottom: 15px;">
                 <div style="width: 15%; display: flex; align-items: center;">
                     <div id="bug-detail" style="display: none;">Steps to Recreate</div>
