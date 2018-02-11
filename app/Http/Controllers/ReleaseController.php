@@ -91,7 +91,8 @@ class ReleaseController extends Controller
      */
     public function edit(Release $release)
     {
-        //
+        return view ('release.edit')
+            ->with('release', $release);
     }
 
     /**
@@ -103,7 +104,26 @@ class ReleaseController extends Controller
      */
     public function update(Request $request, Release $release)
     {
-        //
+        $request->validate([
+            'version' => 'required',
+            'tasks' => 'required'
+        ]);
+
+        $release->update([
+            'version' => $request->input('version')
+        ]);
+
+        Task::where('release_id', $release->id)
+            ->update([
+                'release_id' => null
+            ]);
+
+        Task::whereIn('id', $request->input('tasks'))
+            ->get()
+            ->each(function ($task) use ($release) {
+                $task->release()->associate($release->id);
+                $task->save();
+            });
     }
 
     /**

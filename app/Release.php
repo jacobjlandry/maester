@@ -29,4 +29,9 @@ class Release extends Model
             return $order->search($task->priority);
         });
     }
+
+    public function project()
+    {
+        return $this->belongsTo('\App\Project');
+    }
 }
