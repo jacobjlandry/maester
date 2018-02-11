@@ -79,8 +79,13 @@ class ReleaseController extends Controller
      */
     public function show(Release $release)
     {
-        return view('release.show')
-            ->with('release', $release);
+        if(Auth::user()->can('view', $release)) {
+            return view('release.show')
+                ->with('release', $release);
+        }
+        else {
+            abort(403, 'You are not allowed to view this release.');
+        }
     }
 
     /**
@@ -91,8 +96,13 @@ class ReleaseController extends Controller
      */
     public function edit(Release $release)
     {
-        return view ('release.edit')
-            ->with('release', $release);
+        if(Auth::user()->can('update', $release)) {
+            return view('release.edit')
+                ->with('release', $release);
+        }
+        else {
+            abort(403, 'You are not allowed to edit this release.');
+        }
     }
 
     /**
@@ -104,26 +114,31 @@ class ReleaseController extends Controller
      */
     public function update(Request $request, Release $release)
     {
-        $request->validate([
-            'version' => 'required',
-            'tasks' => 'required'
-        ]);
-
-        $release->update([
-            'version' => $request->input('version')
-        ]);
-
-        Task::where('release_id', $release->id)
-            ->update([
-                'release_id' => null
+        if(Auth::user()->can('update', $release)) {
+            $request->validate([
+                'version' => 'required',
+                'tasks' => 'required'
             ]);
 
-        Task::whereIn('id', $request->input('tasks'))
-            ->get()
-            ->each(function ($task) use ($release) {
-                $task->release()->associate($release->id);
-                $task->save();
-            });
+            $release->update([
+                'version' => $request->input('version')
+            ]);
+
+            Task::where('release_id', $release->id)
+                ->update([
+                    'release_id' => null
+                ]);
+
+            Task::whereIn('id', $request->input('tasks'))
+                ->get()
+                ->each(function ($task) use ($release) {
+                    $task->release()->associate($release->id);
+                    $task->save();
+                });
+        }
+        else {
+            abort(403, 'You are not allowed to edit this release.');
+        }
     }
 
     /**
@@ -134,11 +149,16 @@ class ReleaseController extends Controller
      */
     public function destroy(Release $release)
     {
-        Task::where('release_id', $release->id)
-            ->update([
-                'release_id' => null
-            ]);
+        if(Auth::user()->can('destroy', $release)) {
+            Task::where('release_id', $release->id)
+                ->update([
+                    'release_id' => null
+                ]);
 
-        $release->delete();
+            $release->delete();
+        }
+        else {
+            abort(403, 'You are not allowed to delete this release.');
+        }
     }
 }

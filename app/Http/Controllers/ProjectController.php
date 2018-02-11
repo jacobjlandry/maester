@@ -147,7 +147,7 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        if(Auth::user()->can('destroy')) {
+        if(Auth::user()->can('destroy', $project)) {
             $project->comments()->delete();
             $project->tasks()->delete();
             $project->releases()->delete();
