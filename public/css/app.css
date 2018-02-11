@@ -52,6 +52,9 @@ html, body {
 .feature {
   color: #21ba45; }
 
+.release {
+  color: #2185d0; }
+
 /** Project Card */
 .project-card {
   width: 300px;
