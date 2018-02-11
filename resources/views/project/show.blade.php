@@ -31,7 +31,7 @@
                             </div>
                         </div>
                         <div class="ui vertical pointing menu" style="width: 100%;">
-                            @foreach($project->tasks as $task)
+                            @foreach($project->openTasks() as $task)
                                 <a class="item" href="/task/{{ $task->id }}" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                     <div><i class="fa fa-{{ $task->fontawesome()  }} {{ $task->type }}"></i> &nbsp; {{ $task->title }}</div>
                                     <div>

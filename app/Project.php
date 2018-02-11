@@ -19,10 +19,20 @@ class Project extends Model
         return $this->hasMany('App\Task')->orderBy('id', 'desc');
     }
 
+    /**
+     * List of tasks not attached to a release ordered by priority
+     *
+     * @return mixed
+     */
     public function openTasks()
     {
         return $this->tasks->filter(function($task) {
             return $task->release === null;
+        })->sortBy('title')
+        ->sortBy(function($task) {
+            $order = collect(['highest', 'normal', 'lowest']);
+
+            return $order->search($task->priority);
         });
     }
 
