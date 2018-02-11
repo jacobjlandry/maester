@@ -68,7 +68,21 @@
                             @foreach($project->tasks()->onlyTrashed()->get() as $task)
                                 <div class="item" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
                                     <div><i class="fa fa-{{ $task->fontawesome()  }} {{ $task->type }}"></i> &nbsp; {{ $task->title }}</div>
-                                    <div><div class="ui {{ $task->statusColor() }} horizontal label">{{ ucwords($task->status) }}</div></div>
+                                    <div>
+                                        @if($task->release)
+                                            <div class="ui horizontal label">{{ $task->release->version }}</div>
+                                        @endif
+                                        <div class="ui yellow horizontal label">
+                                            @if($task->priority == 'highest')
+                                                !!!
+                                            @elseif($task->priority == "normal")
+                                                !!
+                                            @else
+                                                !
+                                            @endif
+                                        </div>
+                                        <div class="ui {{ $task->statusColor() }} horizontal label">{{ ucwords($task->status) }}</div>
+                                    </div>
                                 </div>
                             @endforeach
                             @if(!$project->tasks()->onlyTrashed()->get()->count())
