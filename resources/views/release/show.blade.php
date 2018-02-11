@@ -2,9 +2,13 @@
 
 @section('content')
     <div class="ui container raised segment" style="display: flex; flex-direction: column;">
-        <div style="display: flex; justify-content: space-between;">
+        <div class="ui container" style="display: flex; justify-content: space-between; align-items: center; align-content: center;">
+            <a href="/release/{{ $release->id }}/readme" class="ui blue button">View Readme</a>
+            <h2>View Release - {{ $release->version }}</h2>
             <div>
-                <h3>View Release - {{ $release->version }}</h3>
+                @if(Auth::user()->can('update', $release))
+                    <a href="/release/{{ $release->id }}/edit" class="ui green button">Edit Release</a>
+                @endif
             </div>
         </div>
 
