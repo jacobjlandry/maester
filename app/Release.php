@@ -10,4 +10,9 @@ class Release extends Model
     use SoftDeletes;
 
     protected $guarded = ['id'];
+
+    public function tasks()
+    {
+        return $this->hasMany('\App\Task');
+    }
 }

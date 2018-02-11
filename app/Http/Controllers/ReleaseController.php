@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Project;
 use App\Release;
+use App\Task;
 use Illuminate\Http\Request;
+use Auth;
 
 class ReleaseController extends Controller
 {
@@ -22,9 +25,15 @@ class ReleaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        if(Auth::user()->can('update', Project::find($request->input('project')))) {
+            return view('release.create')
+                ->with('project', Project::find($request->input('project')));
+        }
+        else {
+            abort(403, 'You are not allowed to create releases for this project');
+        }
     }
 
     /**
@@ -35,7 +44,31 @@ class ReleaseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(Auth::user()->can('update', Project::find($request->input('project_id')))) {
+            $request->validate([
+                'version' => 'required',
+                'project_id' => 'required|int',
+                'tasks' => 'required'
+            ]);
+
+            $release = Release::create([
+                'version' => $request->input('version'),
+                'project_id' => $request->input('project_id'),
+                'created_by' => Auth::user()->id
+            ]);
+
+            Task::whereIn('id', $request->input('tasks'))
+                ->get()
+                ->each(function ($task) use ($release) {
+                    $task->release()->associate($release->id);
+                    $task->save();
+                });
+
+            return redirect('/project/' . $request->input('project_id'));
+        }
+        else {
+            abort(403, 'You are not allowed to create releases for this project');
+        }
     }
 
     /**

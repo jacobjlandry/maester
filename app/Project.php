@@ -19,6 +19,13 @@ class Project extends Model
         return $this->hasMany('App\Task')->orderBy('id', 'desc');
     }
 
+    public function openTasks()
+    {
+        return $this->tasks->filter(function($task) {
+            return $task->release === null;
+        });
+    }
+
     /**
      * Get tasks logged as bugs against this project
      *

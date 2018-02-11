@@ -27,7 +27,7 @@ class Task extends Model
 
     public function release()
     {
-        return $this->hasOne('App\Release');
+        return $this->belongsTo('App\Release');
     }
 
     public function creator()
