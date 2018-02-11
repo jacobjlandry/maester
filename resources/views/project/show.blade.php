@@ -89,7 +89,7 @@
                         </div>
                         <div class="ui vertical pointing menu" style="width: 100%;">
                             @foreach($project->releases->where('deleted_at', null) as $release)
-                                <a class="item">
+                                <a class="item" href="/release/{{ $release->id }}">
                                     {{ $release->version }}
                                 </a>
                             @endforeach

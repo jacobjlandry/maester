@@ -79,7 +79,8 @@ class ReleaseController extends Controller
      */
     public function show(Release $release)
     {
-        //
+        return view('release.show')
+            ->with('release', $release);
     }
 
     /**
