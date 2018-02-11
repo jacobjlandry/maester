@@ -134,6 +134,11 @@ class ReleaseController extends Controller
      */
     public function destroy(Release $release)
     {
-        //
+        Task::where('release_id', $release->id)
+            ->update([
+                'release_id' => null
+            ]);
+
+        $release->delete();
     }
 }

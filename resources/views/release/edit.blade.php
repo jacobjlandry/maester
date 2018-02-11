@@ -81,6 +81,14 @@
             </div>
         </form>
     </div>
+    <div class="ui container raised segment" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+        <div>
+            <h3>Danger Zone!</h3>
+        </div>
+        <div>
+            <a id="delete" class="ui button red">Delete</a>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
@@ -117,5 +125,22 @@
                 location = '{{ route('release.show', ['id' => $release->id]) }}';
             }
         });
+    });
+
+    $('#delete').on('click', function(e) {
+        var validate = confirm("Are you sure you want to delete this project and all data associated with it? \r\n\r\nThis cannot be undone.");
+        if(validate) {
+            $.ajax({
+                url: '{{ route('release.destroy', ['id' => $release->id]) }}',
+                data: { _token: '{{ csrf_token() }}' },
+                method: 'DELETE',
+                success: function() {
+                    location = '{{ route('release.index') }}';
+                },
+                error: function() {
+                    alert("Could not delete!");
+                }
+            });
+        }
     });
 @endpush
