@@ -78,7 +78,35 @@ class Project extends Model
      */
     public function releases()
     {
-        return $this->hasMany('App\Release')->withTrashed();
+        return $this->hasMany('App\Release');
+    }
+
+    /**
+     * Releases still in progress
+     *
+     * @return mixed
+     */
+    public function openReleases()
+    {
+        return $this->releases->filter(function($release) {
+            return $release->tasks
+                    ->where('status', '<>', 'complete')
+                    ->count() != 0;
+        });
+    }
+
+    /**
+     * Get completed releases attached to this project
+     *
+     * @return mixed
+     */
+    public function completedReleases()
+    {
+        return $this->releases->filter(function($release) {
+            return $release->tasks
+                ->where('status', '<>', 'complete')
+                ->count() == 0;
+        });
     }
 
     /**

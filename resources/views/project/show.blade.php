@@ -102,7 +102,7 @@
                             </div>
                         </div>
                         <div class="ui vertical pointing menu" style="width: 100%;">
-                            @foreach($project->releases->where('deleted_at', null) as $release)
+                            @foreach($project->openReleases() as $release)
                                 <a class="item" href="/release/{{ $release->id }}">
                                     <div><i class="fa fa-coffee release"></i> &nbsp; {{ $release->version }}</div>
                                 </a>
@@ -112,9 +112,9 @@
                     <div class="complete-release-list" style="padding-bottom: 15px;">
                         <h4>Completed Releases</h4>
                         <div class="ui vertical pointing menu" style="width: 100%;">
-                            @foreach($project->releases->filter(function($release) { return $release->deleted_at != null; }) as $release)
+                            @foreach($project->completedReleases() as $release)
                                 <a class="item">
-                                    {{ $release->version }}
+                                    <div><i class="fa fa-coffee release"></i> &nbsp; {{ $release->version }}</div>
                                 </a>
                             @endforeach
                         </div>
