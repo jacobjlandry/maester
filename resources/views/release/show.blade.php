@@ -12,6 +12,12 @@
             </div>
         </div>
 
+        <div class="ui @if($release->completionPercent() != 100) blue active @else green @endif progress" id="progressContainer" data-percent="{{ $release->completionPercent() }}">
+            <div class="bar" id="progressBar" style="transition-duration: 300ms; width: {{ $release->completionPercent() }}%; max-width: 100%;">
+                <div class="progress" id="progressNumber">{{ $release->completionPercent() }}%</div>
+            </div>
+        </div>
+
         <div id="available-tasks" class="ui vertical pointing menu" style="width: 85%;">
             @foreach($release->tasksByPriority() as $task)
                 <a href="/task/{{ $task->id }}" class="item" task-id="{{ $task->id }}" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">

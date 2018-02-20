@@ -34,4 +34,9 @@ class Release extends Model
     {
         return $this->belongsTo('\App\Project');
     }
+
+    public function completionPercent()
+    {
+        return round(($this->tasks->where('status', 'complete')->count() / $this->tasks->count()) * 100);
+    }
 }
