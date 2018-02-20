@@ -14,12 +14,10 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript">
-        $(document).ready(function() {
-            var converter = new showdown.Converter();
-            text = `{{ $project->readme }}`;
-            html = converter.makeHtml(text);
-            $('#code').html(html);
-        });
-    </script>
+    $(document).ready(function() {
+        var converter = new showdown.Converter();
+        text = `{{ $project->readme }}`;
+        html = converter.makeHtml(text);
+        $('#code').html(html);
+    });
 @endpush
