@@ -97,7 +97,7 @@ class Task extends Model
             return $this->estimate * 1000;//3600;
         }
         else {
-            return 0;
+            return 1;
         }
     }
 

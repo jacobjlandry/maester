@@ -49,12 +49,14 @@
                         </div>
                     @endif
 
-                    @if(Auth::user()->id == $task->owner->id)
+                    @if(Auth::user()->can('update', $task))
                         <h4>Actions</h4>
-                        @if($task->status == 'new' || $task->status == 'paused')
-                            <button class="ui blue button update-status" status="in progress">Start Work</button>
-                        @elseif($task->status == "in progress")
-                            <button class="ui blue button update-status" status="paused">Stop Work</button>
+                        @if($task->estimate != 0)
+                            @if($task->status == 'new' || $task->status == 'paused')
+                                <button class="ui blue button update-status" status="in progress">Start Work</button>
+                            @elseif($task->status == "in progress")
+                                <button class="ui blue button update-status" status="paused">Stop Work</button>
+                            @endif
                         @endif
 
                         <br />

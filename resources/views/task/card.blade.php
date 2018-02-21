@@ -12,6 +12,11 @@
         <div class="meta">
             <span class="date">Created by {{ $task->creator->name }} on {{ $task->created_at->toDateString() }}</span>
         </div>
+        @if($task->release)
+            <div class="meta">
+                <a href="/release/{{ $task->release->id }}">Release: {{ $task->release->version }}</a>
+            </div>
+        @endif
         <div class="description">
             {{ $task->description }}
         </div>
