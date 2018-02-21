@@ -4,7 +4,7 @@
     <div class="ui container raised segment" style="display: flex; flex-direction: column;">
         <div style="display: flex; justify-content: space-between;">
             <div>
-                <h3>New Release</h3>
+                <h3>Edit Release - <a href="/release/{{ $release->id }}">{{ $release->version }}</a></h3>
             </div>
         </div>
 

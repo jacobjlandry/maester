@@ -151,7 +151,11 @@
             data: { 'status': 'complete', 'user_id': {{ Auth::user()->id }}, '_token': '{{ csrf_token() }}' },
             method: 'PATCH',
             success: function() {
-                window.location = '{{ route('project.show', ['id' => $task->project->id ]) }}';
+                @if($task->release)
+                    window.location = '{{ route('release.show', ['id' => $task->release->id ]) }}';
+                @else
+                    window.location = '{{ route('project.show', ['id' => $task->project->id ]) }}';
+                @endif
             },
             error: function() {
                 alert("Could not update!");
