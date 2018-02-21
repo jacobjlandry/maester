@@ -86,6 +86,24 @@
             </div>
         </div>
         <div id="content" style="display: flex; flex-direction: column;">
+            @if(isset($release) || isset($task))
+                <div class="ui breadcrumb" style="padding: 5px;">
+                    @if(isset($release) && !isset($project))
+                        <a class="section" href="/project/{{ $release->project->id }}">{{ $release->project->name }}</a>
+                        <div class="divider"> / </div>
+                        <div class="active section">{{ $release->version }}</div>
+                    @elseif(isset($task) && !isset($project))
+                        <a class="section" href="/project/{{ $task->project->id }}">{{ $task->project->name }}</a>
+                        <div class="divider"> / </div>
+                        @if($task->release)
+                            <a class="section" href="/release/{{ $task->release->id }}">{{ $task->release->version }}</a>
+                            <div class="divider"> / </div>
+                        @endif
+                        <div class="active section">{{ $task->title }}</div>
+                    @endif
+                </div>
+            @endif
+
             <div class="ui container space-waster">
                 &nbsp;
             </div>
