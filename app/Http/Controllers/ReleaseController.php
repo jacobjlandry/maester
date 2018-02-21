@@ -54,7 +54,8 @@ class ReleaseController extends Controller
             $release = Release::create([
                 'version' => $request->input('version'),
                 'project_id' => $request->input('project_id'),
-                'created_by' => Auth::user()->id
+                'created_by' => Auth::user()->id,
+                'notes' => $request->input('notes')
             ]);
 
             Task::whereIn('id', $request->input('tasks'))
@@ -121,7 +122,8 @@ class ReleaseController extends Controller
             ]);
 
             $release->update([
-                'version' => $request->input('version')
+                'version' => $request->input('version'),
+                'notes' => $request->input('notes')
             ]);
 
             Task::where('release_id', $release->id)
@@ -160,5 +162,17 @@ class ReleaseController extends Controller
         else {
             abort(403, 'You are not allowed to delete this release.');
         }
+    }
+
+    /**
+     * Show release notes for this release
+     *
+     * @param Release $release
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function notes(Release $release)
+    {
+        return view('release.notes')
+            ->with('release', $release);
     }
 }

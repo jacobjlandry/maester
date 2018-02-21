@@ -3,7 +3,7 @@
 @section('content')
     <div class="ui container raised segment" style="display: flex; flex-direction: column;">
         <div class="ui container" style="display: flex; justify-content: space-between; align-items: center; align-content: center;">
-            <a href="/release/{{ $release->id }}/readme" class="ui blue button">View Readme</a>
+            <a href="/release/{{ $release->id }}/notes" class="ui blue button">View Release Notes</a>
             <h2><a href="/project/{{ $release->project->id }}">{{ $release->project->name }}</a> Release - {{ $release->version }}</h2>
             <div>
                 @if(Auth::user()->can('update', $release))

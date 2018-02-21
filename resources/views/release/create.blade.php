@@ -50,6 +50,12 @@
                 </div>
             </div>
             <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
+                <div style="width: 15%; display: flex; align-items: center;">Release Notes</div>
+                <div class="ui input" style="width: 85%;">
+                    <textarea name="notes"></textarea>
+                </div>
+            </div>
+            <div class="field" style="display: flex; flex-direction: row; justify-content: space-between;">
                 <div style="width: 15%; display: flex; align-items: center;"></div>
                 <div class="ui fluid icon input" style="width: 85%; display: flex; flex-direction: column; margin-bottom: 15px;">
                     {{ csrf_field() }}

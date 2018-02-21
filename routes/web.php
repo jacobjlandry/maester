@@ -28,6 +28,7 @@ Route::middleware(['bouncer:user'])->group(function() {
     Route::post('task/{task}/assign', 'TaskController@assign')->name('task.assign');
     Route::get('task/{task}/progress', 'TaskController@progress')->name('task.progress');
     Route::resource('release', 'ReleaseController');
+    Route::get('/release/{release}/notes', 'ReleaseController@notes');
 
     Route::get('/home', 'HomeController@index')->name('home');
     Route::get('/file/{file}', 'FileController@show')->name('file.show');
