@@ -9,7 +9,6 @@
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
         <!-- Styles -->
         <link href="/semantic/dist/semantic.css" rel="stylesheet" type="text/css" />
@@ -21,6 +20,8 @@
         <script src="{{ asset('js/pdf.js') }}"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.7.6/showdown.min.js" type="text/javascript"></script>
         <script src='https://cdnjs.cloudflare.com/ajax/libs/dragula/3.7.2/dragula.min.js'></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js" integrity="sha384-SlE991lGASHoBfWbelyBPLsUlwY1GwNDJo3jSJO04KZ33K2bwfV9YBauFfnzvynJ" crossorigin="anonymous"></script>
+
 
         <script type="text/javascript">
             $(document).ready(function() {
