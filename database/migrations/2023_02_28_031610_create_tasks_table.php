@@ -13,18 +13,18 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             // identifiers
-            $table->$table->bigIncrements('id')->index();
-            $table->$table->bigInteger('parent_id')->nullable()->index();
+            $table->bigIncrements('id')->index();
+            $table->bigInteger('parent_id')->nullable()->index();
             // data
             $table->string('title');
             $table->longtext('description')->nullable();
             $table->string('status', 10)->index();
             // flags
-            $table->boolean('is_complete')->default('false');
-            $table->boolean('hide_when_complete')->default('true');
+            $table->boolean('is_complete')->default(false);
+            $table->boolean('hide_when_complete')->default(true);
             // timestamps
             $table->timestamps();
-            $table->$table->softDeletes();
+            $table->softDeletes();
         });
     }
 
