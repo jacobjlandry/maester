@@ -44,18 +44,16 @@ services:
       - ./docker-compose/nginx:/etc/nginx/conf.d/
     networks:
       - maester
-  mysql:
-    image: mysql:8
+  mongo:
+    image: mongo
     restart: unless-stopped
-    ports:
-        - ${DB_PORT}:3306
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_USER: ${DB_USERNAME}
+        MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
+        MONGO_INITDB_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - 'appmysql:/var/lib/mysql'
+        - 'mongodb:/data/db'
+    ports:
+        - ${DB_PORT}:27017
     networks:
       - maester
 
@@ -64,5 +62,5 @@ networks:
     driver: bridge
 
 volumes:
-  appmysql:
+  mongodb:
     driver: local

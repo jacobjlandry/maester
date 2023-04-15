@@ -12,11 +12,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // lets just start with a few tasks for now
+        $task = new \App\Models\Task();
+        $task->title = "Test Task";
+        $task->description = "This is a test task";
+        $task->type = "checkbox";
+        $task->save();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $taskTwo = new \App\Models\Task();
+        $taskTwo->parent_id = $task->id;
+        $taskTwo->title = "Subtask";
+        $taskTwo->description = "This is a subtask";
+        $taskTwo->type = "checkbox";
+        $taskTwo->save();
     }
 }
