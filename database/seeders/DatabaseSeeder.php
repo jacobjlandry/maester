@@ -25,5 +25,13 @@ class DatabaseSeeder extends Seeder
         $taskTwo->description = "This is a subtask";
         $taskTwo->type = "checkbox";
         $taskTwo->save();
+
+        $taskThree = new \App\Models\Task();
+        $taskThree->title = "Another Task";
+        $taskThree->description = "Testing flexibility";
+        $taskThree->type = "folder";
+        $taskThree->icon = "foldericn";
+        $taskThree->security = 12345;
+        $taskThree->save();
     }
 }
