@@ -9,7 +9,7 @@
                         I'm an example component.
                     </div>
 
-                    <button class="rounded-full bg-blue-500 text-blue-200 p-4 my-2" @click="count++">I've been clicked {{ count }} times!</button>
+                    <button class="rounded-full bg-blue-500 text-blue-200 p-4 my-2" @click="increment">I've been clicked {{ count }} times!</button>
                 </div>
             </div>
         </div>
@@ -21,6 +21,11 @@
         data() {
             return {
                 count: 0
+            }
+        },
+        methods: {
+            increment() {
+                this.count++
             }
         },
         mounted() {
