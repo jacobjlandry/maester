@@ -8,6 +8,8 @@
                     <div class="card-body italic">
                         I'm an example component.
                     </div>
+
+                    <button class="rounded-full bg-blue-500 text-blue-200 p-4 my-2" @click="count++">I've been clicked {{ count }} times!</button>
                 </div>
             </div>
         </div>
@@ -16,6 +18,11 @@
 
 <script>
     export default {
+        data() {
+            return {
+                count: 0
+            }
+        },
         mounted() {
             console.log('Component mounted.')
         }
