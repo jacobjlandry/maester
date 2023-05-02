@@ -10,6 +10,14 @@
                     </div>
 
                     <button class="rounded-full bg-blue-500 text-blue-200 p-4 my-2" @click="increment">I've been clicked {{ count }} times!</button>
+
+                    <div class="text-black">
+                        <input type="text" v-model="newTitle" placeholder="New Task" />
+                    </div>
+                    <div class="text-black">
+                        <input type="text" v-model="newDescription" placeholder="Description" />
+                    </div>
+                    <button class="rounded-full bg-blue-500 text-blue-200 p-4 my-2" @click="newTask">Create Task</button>
                 </div>
             </div>
         </div>
@@ -20,12 +28,26 @@
     export default {
         data() {
             return {
-                count: 0
+                count: 0,
+                newTitle: '',
+                newDescription: '',
             }
         },
         methods: {
             increment() {
                 this.count++
+            },
+            newTask() {
+                console.log(this.newTitle);
+                console.log(this.newDescription);
+                axios
+                    .post('/api/tasks', {
+                        title: this.newTitle,
+                        description: this.newDescription
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    });
             }
         },
         mounted() {

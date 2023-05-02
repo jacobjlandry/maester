@@ -5,7 +5,7 @@
                 <div class="card">
                     <div v-for="task in tasks">
                         <div v-if="!task.parent_id">
-                            {{ task.title }} - {{ task.description }}
+                            {{ task.title }} - {{ task.description }} <button class="rounded-full bg-blue-500 text-white p-2" @click="newTask(task._id)">+</button>
                             <div v-for="subTask in tasks">
                                 <div v-if="subTask.parent_id && task._id === subTask.parent_id" class="pl-10">
                                     {{  subTask.title }} - {{ subTask.description }}
@@ -23,11 +23,21 @@
     export default {
         data() {
             return {
-                tasks: []
+                tasks: [],
             }
         },
         methods: {
-            //
+            newTask(parentId) {
+                axios
+                    .post('/api/tasks', {
+                        title: "Added Subtask!",
+                        description: "This works!",
+                        parent: parentId
+                    })
+                    .then(function (response) {
+                        console.log(response);
+                    });
+            }
         },
         mounted() {
             axios
