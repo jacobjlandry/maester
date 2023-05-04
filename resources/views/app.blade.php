@@ -13,7 +13,6 @@
     </head>
     <body class="antialiased">
         <div id="app">
-            <example-component></example-component>
             <task-list></task-list>
          </div>
     </body>

@@ -11,9 +11,13 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return Task::all();
+        if ($request->get('parent')) {
+            return Task::where('parent_id')->get();
+        } else {
+            return Task::whereNull('parent_id')->get();
+        }
     }
 
     /**

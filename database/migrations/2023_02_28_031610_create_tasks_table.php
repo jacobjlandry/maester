@@ -18,7 +18,7 @@ return new class extends Migration
             // data
             $table->string('title');
             $table->longtext('description')->nullable();
-            $table->string('status', 10)->index();
+            $table->string('type', 10)->index();
             // flags
             $table->boolean('is_complete')->default(false);
             $table->boolean('hide_when_complete')->default(true);
