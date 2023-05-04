@@ -14,3 +14,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', 'App\Http\Controllers\Web\AppController@list');
+Route::get('/tasks/{id}', 'App\Http\Controllers\Web\ViewTaskController@show');

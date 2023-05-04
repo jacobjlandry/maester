@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers\Web;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class TaskController extends Controller
+class ViewTaskController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->get('parent')) {
-            return Task::where('parent_id', $request->get('parent'))->get();
-        } else {
-            return Task::whereNull('parent_id')->get();
-        }
+        //
     }
 
     /**
@@ -33,23 +29,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $title = $request->get('title');
-        $description = $request->get('description');
-        $parent = $request->get('parent');
-
-        return Task::create([
-            'title' => $title,
-            'description' => $description,
-            'parent_id' => $parent ?? null,
-        ]);
+        //
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show(string $id)
     {
-        return $task;
+        return view ('tasks.task')
+            ->with('task', Task::where("_id", $id)->first());
     }
 
     /**
