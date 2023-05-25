@@ -14,6 +14,11 @@ class Task extends Model
     // protected $primaryKey = '_id';
     // public $incrementing = false;
 
+    /**
+     * Perform a search
+     * Use the provided request to pull filters automatically
+     * @return array
+     */
     public static function searchBy(Request $request)
     {
         if ($request->get('parent')) {
@@ -23,6 +28,10 @@ class Task extends Model
         }
     }
 
+    /**
+     * Validate and apply input
+     * @throws
+     */
     public function validateInput(Request $request) 
     {
         $title = $request->get('title');
