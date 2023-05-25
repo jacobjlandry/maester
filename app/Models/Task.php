@@ -19,9 +19,9 @@ class Task extends Model
      * Use the provided request to pull filters automatically
      * @return array
      */
-    public static function searchBy(Request $request)
+    public static function searchBy(Request $request = null)
     {
-        if ($request->get('parent')) {
+        if ($request && $request->get('parent')) {
             return self::where('parent_id', $request->get('parent'))->get();
         } else {
             return self::whereNull('parent_id')->get();

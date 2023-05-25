@@ -11,7 +11,7 @@ class Task extends Component
 
     public function load()
     {
-        $this->tasks = TaskModel::whereNull('parent_id')->get();
+        $this->tasks = TaskModel::searchBy();
     }
 
     public function render()
