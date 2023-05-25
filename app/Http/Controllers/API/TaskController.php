@@ -13,19 +13,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->get('parent')) {
-            return Task::where('parent_id', $request->get('parent'))->get();
-        } else {
-            return Task::whereNull('parent_id')->get();
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return Task::searchBy($request);
     }
 
     /**
@@ -33,15 +21,16 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        $title = $request->get('title');
-        $description = $request->get('description');
-        $parent = $request->get('parent');
+        $task = new Task();
 
-        return Task::create([
-            'title' => $title,
-            'description' => $description,
-            'parent_id' => $parent ?? null,
-        ]);
+        try {
+            $task->validateInput($request);
+            $task->save();
+        } catch(\Exception $e) {
+            $task->error = $e->getMessage();
+        }
+        
+        return $task;
     }
 
     /**
@@ -53,19 +42,18 @@ class TaskController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Task $task)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Task $task)
     {
-        //
+        try {
+            $task->validateInput($request);
+            $task->save();
+        } catch(\Exception $e) {
+            $task->error = $e->getMessage();
+        }
+
+        return $task;
     }
 
     /**
@@ -73,6 +61,11 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        // check for subtasks
+        if ($task->hasSubtasks()) {
+            abort(409, "Task has subtasks");
+        }
+
+        return $task->delete();
     }
 }
