@@ -14,7 +14,7 @@
     <body class="antialiased">
         <div id="app">
             <task-list></task-list>
-            <create-task></create-task>
+            <create-task :showing="false"></create-task>
          </div>
     </body>
 </html>

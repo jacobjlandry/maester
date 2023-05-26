@@ -21,6 +21,7 @@ import Task from './components/tasks/Task.vue';
 app.component('task', Task);
 import Create from './components/tasks/Create.vue';
 app.component('create-task', Create);
+let createTaskModalShowing = false;
 
 /**
  * The following block of code may be used to automatically register your
