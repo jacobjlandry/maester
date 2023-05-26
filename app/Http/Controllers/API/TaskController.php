@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Http\Requests\TaskRequest;
 use App\Http\Controllers\Controller;
 
 class TaskController extends Controller
@@ -13,24 +14,25 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return Task::searchBy($request);
+        if ($request && $request->get('parent')) {
+            return Task::where('parent_id', $request->get('parent'))->get();
+        } else {
+            return Task::whereNull('parent_id')->get();
+        }
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(TaskRequest $request)
     {
-        $task = new Task();
+        $validated = $request->validated();
 
-        try {
-            $task->validateInput($request);
-            $task->save();
-        } catch(\Exception $e) {
-            $task->error = $e->getMessage();
-        }
-        
-        return $task;
+        return Task::create([
+            'title' => $validated['title'],
+            'description' => $validated['description'] ?? null,
+            'parent_id' => $validated['parent'] ?? null,
+        ]);
     }
 
     /**
@@ -44,14 +46,15 @@ class TaskController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Task $task)
+    public function update(TaskRequest $request, Task $task)
     {
-        try {
-            $task->validateInput($request);
-            $task->save();
-        } catch(\Exception $e) {
-            $task->error = $e->getMessage();
-        }
+        // get the validated input
+        $validated = $request->validated();
+
+        $task->title = $validated['title'];
+        $task->description = $validated['description'] ??  null;
+        $task->parent_id = $validated['parent'] ?? null;
+        $task->save();
 
         return $task;
     }

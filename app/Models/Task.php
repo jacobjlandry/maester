@@ -13,42 +13,7 @@ class Task extends Model
     protected $guarded = ['_id', 'created_at', 'updated_at', 'deleted_at'];
     // protected $primaryKey = '_id';
     // public $incrementing = false;
-
-    /**
-     * Perform a search
-     * Use the provided request to pull filters automatically
-     * @return array
-     */
-    public static function searchBy(Request $request = null)
-    {
-        if ($request && $request->get('parent')) {
-            return self::where('parent_id', $request->get('parent'))->get();
-        } else {
-            return self::whereNull('parent_id')->get();
-        }
-    }
-
-    /**
-     * Validate and apply input
-     * @throws
-     */
-    public function validateInput(Request $request) 
-    {
-        $title = $request->get('title');
-        $description = $request->get('description', null);
-        $parent = $request->get('parent', null);
-
-        // required params
-        if (!$title) {
-            abort(400, 'Title is required');
-        }
-        $this->title = $title;
-
-        // optional params
-        $this->description = $description;
-        $this->parent_id = $parent;
-    }
-
+    
     /**
      * Check if this task has any subtasks related to it
      * @return bool
