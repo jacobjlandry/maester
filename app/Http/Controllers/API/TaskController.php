@@ -26,13 +26,8 @@ class TaskController extends Controller
      */
     public function store(TaskRequest $request)
     {
-        $validated = $request->validated();
-
-        return Task::create([
-            'title' => $validated['title'],
-            'description' => $validated['description'] ?? null,
-            'parent_id' => $validated['parent'] ?? null,
-        ]);
+        // store validated task
+        return Task::create($request->validated());
     }
 
     /**
@@ -48,14 +43,10 @@ class TaskController extends Controller
      */
     public function update(TaskRequest $request, Task $task)
     {
-        // get the validated input
-        $validated = $request->validated();
+        // use the validated input to update the task
+        $task->update($request->validated());
 
-        $task->title = $validated['title'];
-        $task->description = $validated['description'] ??  null;
-        $task->parent_id = $validated['parent'] ?? null;
-        $task->save();
-
+        // return the new task
         return $task;
     }
 
