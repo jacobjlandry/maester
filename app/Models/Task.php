@@ -13,17 +13,13 @@ class Task extends Model
     protected $guarded = ['_id', 'created_at', 'updated_at', 'deleted_at'];
     // protected $primaryKey = '_id';
     // public $incrementing = false;
-    
+
     /**
      * Check if this task has any subtasks related to it
      * @return bool
      */
     public function hasSubtasks()
     {
-        if (Task::where('parent_id', $this->id)->count()) {
-            return true;
-        }
-
-        return false;
+        return Task::where('parent_id', $this->id)->count() > 0;
     }
 }
