@@ -16,6 +16,10 @@
         <div v-for="task in tasks">
             <task :task="task" :loadTask="loadTask"></task>
         </div>
+
+        <div class="text-sky-800">
+            <create-task :showing="false" :list="parent" :getTasks="getTasks"></create-task>
+        </div>
     </div>
 </template>
 
