@@ -1,15 +1,10 @@
 <template>
-    <div v-if="taskData" class="m-2 border rounded-lg border-blue-50 p-4">
-        <div class="font-bold">
+    <div v-if="taskData" class="px-4 my-2 flex flex-row">
+        <div>
+            <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-sky-200 rounded-full w-6 h-6" v-model="task.completed" v-bind:id="task._id" @click="complete" /> 
+        </div>
+        <div class="font-bold cursor-pointer text-sky-100" @click="this.loadTask(this.task)">
             {{ taskData.title }}
-        </div>
-        <div class="p-4 text-sm">
-            {{ taskData.description }} ({{  taskData._id }})
-        </div>
-        <div v-for="subTask in tasks">
-            <div class="px-10 text-xs">
-                <a :href="'/tasks/' + subTask._id">{{  subTask.title }}</a>
-            </div>
         </div>
     </div>                      
 </template>
@@ -19,28 +14,29 @@
         props: {
             task: Object,
             task_id: String,
+            loadTask: Function,
         },
         data() {
             return {
-                tasks: [],
                 taskData: null,
             }
         },
         methods: {
-            //
+            complete(event) {
+                axios
+                    .patch(`/api/tasks/${this.taskData._id}`, { title: this.taskData.title, completed: event.target.checked, completed_at: event.target.checked ? Date() : null} )
+                    .then(response => (this.taskData = response.data));
+            }
         },
         mounted() {
             if (!this.task) {
-                console.log('fetching task');
                 axios
-                    .get('/api/tasks/' + this.task_id)
+                    .get(`/api/tasks/${this.task_id}`)
                     .then(response => (this.taskData = response.data));
             }
+
             if (this.task) {
                 this.taskData = this.task;
-                axios
-                .get('/api/tasks', { params: { parent: this.taskData._id } })
-                .then(response => (this.tasks = response.data));
             }
         }
     }

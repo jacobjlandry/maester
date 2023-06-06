@@ -7,11 +7,12 @@
         <title>{{ config('app.name') }}</title>
 
         <!-- Fonts -->
+        <script src="https://kit.fontawesome.com/42382cf9d2.js" crossorigin="anonymous"></script>
         
         <!-- Styles & Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="antialiased">
+    <body class="antialiased bg-sky-950">
         <div id="app">
             <task-list></task-list>
             <create-task :showing="false"></create-task>

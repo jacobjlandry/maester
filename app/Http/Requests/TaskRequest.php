@@ -27,7 +27,9 @@ class TaskRequest extends FormRequest
         return [
             'title' => 'string|required',
             'description' => 'string',
-            'parent_id' => 'integer'
+            'parent_id' => 'integer',
+            'completed' => 'boolean',
+            "completed_at" => "date|nullable",
         ];
     }
 
