@@ -19,14 +19,16 @@
             <task :task="task" :loadTask="loadTask"></task>
         </div>
 
-        <div class="text-sky-800">
-            <create-task :showing="false" :list="parent" :getTasks="getTasks"></create-task>
-        </div>
+        <div class="flex flex-row justify-between mt-8">
+            <div class="text-sky-800">
+                <create-task :showing="false" :list="parent" :getTasks="getTasks"></create-task>
+            </div>
 
-        <div v-if="tasks.length === 0 && !loading" class="">
-            <button class="bg-red-300 text-red-100 px-4 py-2 text-sm uppercase tracking-wide font-bold rounded-lg" @click="this.delete()">
-                Delete
-            </button>
+            <div v-if="tasks.length === 0 && !loading">
+                <button class="bg-red-500 hover:bg-red-700 text-red-100 p-4 w-14 h-14 text-sm uppercase tracking-wide font-bold rounded-full" @click="this.delete()">
+                    <i class="fa-solid fa-trash fa-lg"></i>
+                </button>
+            </div>
         </div>
     </div>
 </template>

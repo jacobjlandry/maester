@@ -27,8 +27,8 @@
             </div>        
         </div>
     </Transition>
-    <button class="bg-sky-300 text-white px-4 py-2 text-sm uppercase tracking-wide font-bold rounded-lg" @click="this.open()">
-        New Task
+    <button class="bg-sky-500 hover:bg-sky-700 text-sky-100 p-4 w-14 h-14 text-sm uppercase tracking-wide font-bold rounded-full" @click="this.open()">
+        <i class="fa-solid fa-plus fa-lg"></i>
     </button>
 </template>
 
