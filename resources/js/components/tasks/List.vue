@@ -22,6 +22,12 @@
         <div class="text-sky-800">
             <create-task :showing="false" :list="parent" :getTasks="getTasks"></create-task>
         </div>
+
+        <div v-if="tasks.length === 0 && !loading" class="">
+            <button class="bg-red-300 text-red-100 px-4 py-2 text-sm uppercase tracking-wide font-bold rounded-lg" @click="this.delete()">
+                Delete
+            </button>
+        </div>
     </div>
 </template>
 
@@ -87,6 +93,13 @@
                 .patch(`/api/tasks/${this.parent._id}`, { title: this.title, description: this.description } )
                 .then(response => {
                     this.getTasks(this.list);
+                })
+            },
+            delete() {
+                axios
+                .delete(`/api/tasks/${this.parent._id}`)
+                .then(response => {
+                    this.loadTask(this.grandParent);
                 })
             },
         },
