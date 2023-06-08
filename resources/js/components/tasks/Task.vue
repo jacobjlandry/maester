@@ -1,7 +1,7 @@
 <template>
     <div v-if="taskData" class="px-4 my-2 flex flex-row">
         <div>
-            <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-sky-200 rounded-full w-6 h-6" v-model="task.completed" v-bind:id="task._id" @click="complete" /> 
+            <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="task.completed" v-bind:id="task._id" @click="complete" /> 
         </div>
         <div class="font-bold cursor-pointer text-sky-100" @click="this.loadTask(this.task)">
             {{ taskData.title }}
