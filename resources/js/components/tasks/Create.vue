@@ -60,7 +60,7 @@
             },
             save() {
                 axios
-                .post('/api/tasks', { title: this.title, description: this.description } )
+                .post('/api/tasks', { title: this.title, description: this.description, parent_id: this.list ? this.list._id : null } )
                 .then(response => {
                     this.close();
                     this.getTasks(this.list);
