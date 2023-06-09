@@ -3,7 +3,7 @@
         <div>
             <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="task.completed" v-bind:id="task._id" @click="complete" /> 
         </div>
-        <div class="font-bold cursor-pointer text-sky-100" @click="this.loadTask(this.task)">
+        <div class="font-bold cursor-pointer text-sky-100" @click="$emit('loadTask', this.task)">
             {{ taskData.title }}
         </div>
     </div>                      
@@ -14,7 +14,6 @@
         props: {
             task: Object,
             task_id: String,
-            loadTask: Function,
         },
         data() {
             return {
