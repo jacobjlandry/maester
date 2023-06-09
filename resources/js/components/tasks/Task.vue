@@ -12,15 +12,18 @@
 <script>
     export default {
         props: {
+            // task we are loading
             task: Object,
             task_id: String,
         },
         data() {
             return {
+                // data
                 taskData: null,
             }
         },
         methods: {
+            // mark task as complete
             complete(event) {
                 axios
                     .patch(`/api/tasks/${this.taskData._id}`, { title: this.taskData.title, completed: event.target.checked, completed_at: event.target.checked ? Date() : null} )
@@ -28,12 +31,14 @@
             }
         },
         mounted() {
+            // load task by id
             if (!this.task) {
                 axios
                     .get(`/api/tasks/${this.task_id}`)
                     .then(response => (this.taskData = response.data));
             }
 
+            // set task data if provided
             if (this.task) {
                 this.taskData = this.task;
             }

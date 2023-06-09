@@ -1,13 +1,13 @@
 <template>
     <div class="bg-sky-950 text-white p-10 w-full">
-        <div v-if="parent" class="text-sm cursor-pointer mb-4" @click="loadTask(grandParent)">
+        <div v-if="task" class="text-sm cursor-pointer mb-4" @click="loadTask(parent)">
             <i class="fa-solid fa-chevron-left"></i> Back
         </div>
         <div class="border-b-2 border-sky-100 w-full p-2 mb-6">
-            <input type="text" class="w-full bg-sky-950 border-0 focus:ring-0 text-sky-100 text-4xl disabled:text-sky-100" v-model="this.title" :readonly="this.parent === null" @change="save" />
+            <input type="text" class="w-full bg-sky-950 border-0 focus:ring-0 text-sky-100 text-4xl disabled:text-sky-100" v-model="this.title" :readonly="this.task === null" @change="save" />
         </div>
-        <div v-if="this.parent" class="mb-6 px-4 w-full">
-            <div class="w-full bg-sky-950 border-0 outline-none focus:outline-none focus:border-0 focus:ring-0 text-sky-100 text-base disabled:text-sky-100 resize-none" contenteditable :readonly="this.parent === null" @blur="setDescription">
+        <div v-if="this.task" class="mb-6 px-4 w-full">
+            <div class="w-full bg-sky-950 border-0 outline-none focus:outline-none focus:border-0 focus:ring-0 text-sky-100 text-base disabled:text-sky-100 resize-none" contenteditable :readonly="this.task === null" @blur="setDescription">
                 {{ description ?? "Add a description" }}
             </div>
         </div>
@@ -15,8 +15,8 @@
             <i v-if="loading" class="fa-solid fa-list-check fa-beat-fade fa-2x"></i>
         </div>
         
-        <div v-for="task in tasks">
-            <task :task="task" @loadTask="loadTask"></task>
+        <div v-for="subTask in subTasks">
+            <task :task="subTask" @loadTask="loadTask"></task>
         </div>
 
         <div class="flex flex-row justify-between mt-8">
@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-plus fa-lg"></i>
             </button>
 
-            <div v-if="tasks.length === 0 && !loading">
+            <div v-if="subTasks.length === 0 && !loading">
                 <button class="bg-red-500 hover:bg-red-700 text-red-100 p-4 w-14 h-14 text-sm uppercase tracking-wide font-bold rounded-full" @click="this.delete()">
                     <i class="fa-solid fa-trash fa-lg"></i>
                 </button>
@@ -37,78 +37,87 @@
     export default {
         data() {
             return {
-                tasks: [],
+                // state
                 loading: true,
+                // data
+                subTasks: [],
                 title: "Todo",
                 description: null,
+                // navigation
+                task: null,
                 parent: null,
-                grandParent: null,
             }
         },
         methods: {
+            // load a new task page
             loadTask(task) {
-                this.tasks = [];
+                this.subTasks = [];
                 this.loading = true;
                 if (task) {
-                    this.parent = task;
-                    if(task.parent_id) {
-                        this.getGrandParentTask(task.parent_id);
+                    this.task = task;
+                    if (task.parent_id) {
+                        this.getParentTask(task.parent_id);
                     } else {
-                        this.grandParent = null;
+                        this.parent = null;
                     }
                     this.title = task.title;
                     this.description = task.description;
                 } else {
+                    this.task = null;
                     this.parent = null;
-                    this.grandParent = null;
                     this.title = "Todo";
                     this.description = null;
                 }
                 
                 this.getTasks();
             },
+            // pull a list of subtasks
             getTasks() {
                 axios
-                .get('/api/tasks', { params: { parent: this.parent ? this.parent._id : null }})
+                .get('/api/tasks', { params: { parent: this.task ? this.task._id : null }})
                 .then(response => {
                     this.loading = false;
-                    this.tasks = response.data;
+                    this.subTasks = response.data;
                 })
             },
-            getGrandParentTask(id) {
+            // get task data for parent
+            getParentTask(id) {
                 axios
                 .get('/api/tasks/' + id)
                 .then(response => {
-                    this.grandParent = response.data;
+                    this.parent = response.data;
                 })
             },
+            // set title on change
             setTitle(event) {
                 this.title = event.target.innerText;
-                this.save();
+                this.update();
             },
+            // set description on change
             setDescription(event) {
                 this.description = event.target.innerText;
-                this.save();
+                this.update();
             },
+            // CRUD
             create() {
                 axios
-                .post('/api/tasks', { title: "New Task", parent_id: this.parent ? this.parent._id : null } )
+                .post('/api/tasks', { title: "New Task", parent_id: this.task ? this.task._id : null } )
                 .then(response => {
                     this.getTasks(this.list);
                 })
             },
-            save() {
+            update() {
                 axios
-                .patch(`/api/tasks/${this.parent._id}`, { title: this.title, description: this.description } )
+                .patch(`/api/tasks/${this.task._id}`, { title: this.title, description: this.description } )
                 .then(response => {
                     this.getTasks(this.list);
                 })
             },
             delete() {
                 axios
-                .delete(`/api/tasks/${this.parent._id}`)
+                .delete(`/api/tasks/${this.task._id}`)
                 .then(response => {
-                    this.loadTask(this.grandParent);
+                    this.loadTask(this.parent);
                 })
             },
         },
