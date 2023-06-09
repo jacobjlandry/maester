@@ -1,7 +1,12 @@
 <template>
     <div v-if="taskData" class="px-4 my-2 flex flex-row">
         <div>
-            <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="task.completed" v-bind:id="task._id" @click="complete" /> 
+            <div v-if="!task.type || task.type == 'task'">
+                <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="task.completed" v-bind:id="task._id" @click="complete" /> 
+            </div>
+            <div v-if="task.type && task.type == 'folder'">
+                <i class="fa-solid fa-folder-open fa-lg pr-4"></i>
+            </div>
         </div>
         <div class="font-bold cursor-pointer text-sky-100" @click="$emit('loadTask', this.task)">
             {{ taskData.title }}

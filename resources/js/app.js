@@ -19,6 +19,8 @@ import TaskList from './components/tasks/List.vue';
 app.component('task-list', TaskList);
 import Task from './components/tasks/Task.vue';
 app.component('task', Task);
+import Options from './components/tasks/Options.vue';
+app.component('options', Options);
 
 /**
  * The following block of code may be used to automatically register your

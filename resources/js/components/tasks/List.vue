@@ -16,13 +16,15 @@
         </div>
         
         <div v-for="subTask in subTasks">
-            <task :task="subTask" @loadTask="loadTask"></task>
+            <task v-if="!subTask.hideOnComplete || !subTask.completed" :task="subTask" @loadTask="loadTask"></task>
         </div>
 
         <div class="flex flex-row justify-between mt-8">
             <button class="bg-sky-500 hover:bg-sky-700 text-sky-100 p-4 w-14 h-14 text-sm uppercase tracking-wide font-bold rounded-full" @click="this.create()">
                 <i class="fa-solid fa-plus fa-lg"></i>
             </button>
+
+            <options v-if="this.task" :task="this.task"></options>
 
             <div v-if="subTasks.length === 0 && !loading">
                 <button class="bg-red-500 hover:bg-red-700 text-red-100 p-4 w-14 h-14 text-sm uppercase tracking-wide font-bold rounded-full" @click="this.delete()">

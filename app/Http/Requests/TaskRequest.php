@@ -29,7 +29,9 @@ class TaskRequest extends FormRequest
             'description' => 'string',
             'parent_id' => 'string|nullable',
             'completed' => 'boolean',
-            "completed_at" => "date|nullable",
+            'completed_at' => "date|nullable",
+            'type' => 'string|nullable',
+            'hideOnComplete' => 'boolean|nullable',
         ];
     }
 
