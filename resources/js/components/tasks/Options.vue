@@ -22,6 +22,12 @@
                     <div class="py-2">
                         <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="hiddenOnComplete" v-bind:id="task._id" @click="hideOnComplete" /> Hide on Complete
                     </div>
+                    <div class="py=2">
+                        <select class="border border-sky-900 rounded-lg py-2 pr-12 w-64" @change="moveTask" v-model="taskParent">
+                            <option value="null">None</option>
+                            <option v-for="task in this.tasks" :value="task._id">{{  task.title }}</option>
+                        </select>
+                    </div>
                  </div>
              </div>        
          </div>
@@ -40,6 +46,8 @@
              return {
                 showing: false,
                 taskType: "task",
+                taskParent: null,
+                tasks: [],
                 hiddenOnComplete: false,
                 request: {
                     title: null
@@ -47,10 +55,30 @@
              }
          },
          methods: {
+            getTasks() {
+                axios
+                .get('/api/tasks')
+                .then(response => {
+                    this.tasks = response.data;
+                })
+            },
             setType(event) {
                 this.request.type = event.target.value;
                 this.taskType = event.target.value;
                 this.save();
+            },
+            moveTask(event) {
+                if (event.target.value === "null") {
+                    this.request.parent_id = null;
+                    this.taskParent = null;
+                } else {
+                    this.request.parent_id = event.target.value;
+                    this.taskParent = event.target.value;
+                }
+                
+                if (this.task._id !== this.taskParent) {
+                    this.save();
+                }
             },
             hideOnComplete(event) {
                 this.request.hideOnComplete = event.target.checked;
@@ -76,10 +104,15 @@
                 if (this.task.type) {
                     this.taskType = this.task.type;
                 }
+                if (this.task.parent) {
+                    this.taskParent = this.task.parent;
+                }
                 if (this.task.hideOnComplete) {
                     this.hiddenOnComplete = this.task.hideOnComplete;
                 }
             }
+
+            this.getTasks();
          }
      }
  </script>
