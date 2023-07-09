@@ -1,8 +1,11 @@
-FROM php:8.1-fpm
+FROM php:8.2.1-fpm
+#FROM php:fpm-alpine
 
 # Arguments defined in docker-compose.yml
 ARG user
 ARG uid
+
+RUN apt-get upgrade
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -21,9 +24,11 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     pkg-config \
     libssl-dev \
-    npm
+    nodejs
 
-# Clear cache
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
+ apt-get install -y nodejs
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
@@ -55,6 +60,8 @@ RUN chown -R $user:$user /var/www
 RUN chown -R www-data:www-data /var/www/storage
 # find a way around this. it's gross
 RUN chmod -R 777 /var/www/storage
+
+RUN npm run build
 
 # Login as root for access (temp)
 USER root

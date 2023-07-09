@@ -34,6 +34,19 @@ services:
       - ./:/var/www
     networks:
       - maester
+  vite:
+   image: node:alpine
+   container_name: vite
+   #entrypoint: /bin/sh
+   command: npm run dev
+   working_dir: /srv/app
+   ports:
+    - 3001:80
+   volumes:
+     - type: bind
+       source: ./
+       target: /srv/app
+   tty: true
   nginx:
     image: nginx:alpine
     restart: unless-stopped
@@ -45,7 +58,7 @@ services:
     networks:
       - maester
   mongo:
-    image: mongo
+    image: mongo:5.0
     restart: unless-stopped
     environment:
         MONGO_INITDB_ROOT_USERNAME: ${DB_USERNAME}
