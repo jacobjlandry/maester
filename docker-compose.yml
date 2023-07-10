@@ -16,6 +16,7 @@ services:
         APP_KEY: ${APP_KEY}
         APP_DEBUG: ${APP_DEBUG}
         APP_URL: ${APP_URL}
+        ASSET_URL: ${ASSET_URL}
         LOG_CHANNEL: ${LOG_CHANNEL}
         LOG_LEVEL: ${LOG_LEVEL}
         DB_CONNECTION: ${DB_CONNECTION}
@@ -34,19 +35,21 @@ services:
       - ./:/var/www
     networks:
       - maester
-  vite:
-   image: node:alpine
-   container_name: vite
-   #entrypoint: /bin/sh
-   command: npm run dev
-   working_dir: /srv/app
-   ports:
-    - 3001:80
-   volumes:
-     - type: bind
-       source: ./
-       target: /srv/app
-   tty: true
+  # vite:
+  #  build:
+  #     context: ./
+  #     dockerfile: DockerfileVite
+  #  container_name: vite
+  #  entrypoint: /bin/sh
+  #  working_dir: /srv/app
+  #  restart: unless-stopped
+  #  ports:
+  #   - 3001:80
+  #  volumes:
+  #    - type: bind
+  #      source: ./
+  #      target: /srv/app
+  #  tty: true
   nginx:
     image: nginx:alpine
     restart: unless-stopped
