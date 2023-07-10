@@ -31,10 +31,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash - && \
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# NPM Setup
-RUN npm install
-RUN npm run build
-
 # Install PHP extensions
 RUN pecl install mongodb \
     &&  echo "extension=mongodb.so" > $PHP_INI_DIR/conf.d/mongo.ini
@@ -64,6 +60,10 @@ RUN chown -R $user:$user /var/www
 RUN chown -R www-data:www-data /var/www/storage
 # find a way around this. it's gross
 RUN chmod -R 777 /var/www/storage
+
+# NPM Setup
+RUN npm install
+RUN npm run build
 
 # Login as root for access (temp)
 USER root
