@@ -14,10 +14,6 @@
             <link rel="stylesheet" href="{{ asset("build/assets/" . $css) }}" />
         @endforeach
 
-        @foreach($js_includes as $js)
-            <script type="text/javascript" src="{{ asset("build/assets/" . $js) }}"></script>
-        @endforeach
-        
         <!-- keep this in case we're in dev mode -->
         {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     </head>
@@ -25,5 +21,8 @@
         <div id="app">
             <task-list></task-list>
          </div>
+        @foreach($js_includes as $js)
+            <script type="text/javascript" src="{{ asset("build/assets/" . $js) }}" rel="preload"></script>
+        @endforeach
     </body>
 </html>
