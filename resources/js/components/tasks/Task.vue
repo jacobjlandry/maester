@@ -7,6 +7,36 @@
             <div v-if="task.type && task.type == 'folder'">
                 <i class="fa-solid fa-folder-open fa-lg pr-4"></i>
             </div>
+            <div v-if="task.type && task.type == 'bug'">
+                <i class="fa-solid fa-bug fa-lg pr-4"></i>
+            </div>
+            <div v-if="task.type && task.type == 'test'">
+                <i class="fa-solid fa-vial fa-lg pr-4"></i>
+            </div>
+            <div v-if="task.type && task.type == 'test-pass'">
+                <span class="stack fa-lg pr-4">
+                    <i class="fa-solid fa-vial fa-lg"></i>
+                    <i class="fa-solid fa-check text-green-500 fa-sm bottom-0 right-0"></i>
+                </span>
+            </div>
+            <div v-if="task.type && task.type == 'test-fail'">
+                <span class="stack fa-lg pr-4">
+                    <i class="fa-solid fa-vial fa-lg"></i>
+                    <i class="fa-solid fa-x text-red-500 fa-sm bottom-0 right-0"></i>
+                </span>
+            </div>
+            <div v-if="task.type && task.type == 'deploy'">
+                <i class="fa-solid fa-rocket fa-lg pr-4"></i>
+            </div>
+            <div v-if="task.type && task.type == 'weights'">
+                <i class="fa-solid fa-dumbbell fa-lg pr-4"></i>
+            </div>
+            <div v-if="task.type && task.type == 'walk'">
+                <i class="fa-solid fa-person-walking fa-lg pr-4"></i>
+            </div>
+            <div v-if="task.type && task.type == 'run'">
+                <i class="fa-solid fa-person-running fa-lg pr-4"></i>
+            </div>
         </div>
         <div class="font-bold cursor-pointer text-sky-100" @click="$emit('loadTask', this.task)">
             {{ taskData.title }}

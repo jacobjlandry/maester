@@ -17,6 +17,16 @@
                         <select class="border border-sky-900 rounded-lg py-2 pr-12 w-64" @change="setType" v-model="taskType">
                             <option value="task">Task</option>
                             <option value="folder">Folder</option>
+                            <option value="bug">Bug</option>
+                            <optgroup label="Steps">
+                                <option value="test">Test</option>
+                                <option value="deploy">Deploy</option>
+                            </optgroup>
+                            <optgroup label="Health">
+                                <option value="weights">Weights</option>
+                                <option value="walk">Walk</option>
+                                <option value="run">Run</option>
+                            </optgroup>
                         </select>
                     </div>
                     <div class="py-2">
