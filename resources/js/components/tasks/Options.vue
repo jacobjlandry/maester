@@ -60,7 +60,8 @@
                 tasks: [],
                 hiddenOnComplete: false,
                 request: {
-                    title: null
+                    title: null,
+                    user_id: 1,
                 }
              }
          },

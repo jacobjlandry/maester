@@ -16,7 +16,11 @@
         </div>
         
         <div v-for="subTask in subTasks">
-            <task v-if="!subTask.hideOnComplete || !subTask.completed" :task="subTask" @loadTask="loadTask"></task>
+            <Transition name="bounce">
+                <p v-if="!subTask.hideOnComplete || !subTask.completed" style="text-align: center;">
+                    <task :task="subTask" @loadTask="loadTask" :class="this.styleTask(subTask)"></task>
+                </p>
+            </Transition>
         </div>
 
         <div class="flex flex-row justify-between mt-8">
@@ -103,14 +107,14 @@
             // CRUD
             create() {
                 axios
-                .post('/api/tasks', { title: "New Task", parent_id: this.task ? this.task._id : null } )
+                .post('/api/tasks', { title: "New Task", user_id: 1, parent_id: this.task ? this.task._id : null } )
                 .then(response => {
                     this.getTasks(this.list);
                 })
             },
             update() {
                 axios
-                .patch(`/api/tasks/${this.task._id}`, { title: this.title, description: this.description } )
+                .patch(`/api/tasks/${this.task._id}`, { title: this.title, description: this.description, user_id: 1 } )
                 .then(response => {
                     this.getTasks(this.list);
                 })
@@ -122,9 +126,17 @@
                     this.loadTask(this.parent);
                 })
             },
+            styleTask(subTask) {
+                if (subTask.completed) {
+                    return 'text-sky-900';
+                } else {
+                    return 'text-sky-100';
+                }
+            },
         },
         mounted() {
             this.getTasks();
+            // setInterval(this.getTasks, 5000);
         }
     }
 </script>

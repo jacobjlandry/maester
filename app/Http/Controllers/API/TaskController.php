@@ -14,11 +14,22 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
+        $taskQuery = Task::where('user_id', 1);
+
+        // parent
         if ($request && $request->get('parent')) {
-            return Task::where('parent_id', $request->get('parent'))->get();
+            $taskQuery->where('parent_id', $request->get('parent'))->get();
         } else {
-            return Task::whereNull('parent_id')->get();
+            $taskQuery->whereNull('parent_id')->get();
         }
+
+        // due dates
+        $taskQuery->where(function($query) {
+            $query->whereNull('due_datetime')
+                ->orWhere('due_datetime', '<=', Date('Y-m-d 23:59:59'));
+        });
+
+        return $taskQuery->get();
     }
 
     /**
