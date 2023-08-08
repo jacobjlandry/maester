@@ -8,6 +8,9 @@
 
         <!-- Fonts -->
         <script src="https://kit.fontawesome.com/42382cf9d2.js" crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/vue@latest"></script>
+        <script src="https://unpkg.com/@vuepic/vue-datepicker@latest"></script>
+        <link rel="stylesheet" href="https://unpkg.com/@vuepic/vue-datepicker@latest/dist/main.css">
         
         <!-- Styles & Scripts -->
         @foreach($css_includes as $css)

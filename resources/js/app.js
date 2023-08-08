@@ -22,6 +22,10 @@ app.component('task', Task);
 import Options from './components/tasks/Options.vue';
 app.component('options', Options);
 
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+app.component('VueDatePicker', VueDatePicker);
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

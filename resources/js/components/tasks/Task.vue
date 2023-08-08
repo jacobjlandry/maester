@@ -38,8 +38,8 @@
                 <i class="fa-solid fa-person-running fa-lg pr-4"></i>
             </div>
         </div>
-        <div class="font-bold cursor-pointer text-sky-100" @click="$emit('loadTask', this.task)">
-            {{ taskData.title }}
+        <div class="font-bold cursor-pointer" @click="$emit('loadTask', this.task)">
+            {{ taskData.title }} <div class="inline pl-4 text-sky-800" v-if="this.task.due_datetime">({{ new Date(taskData.due_datetime).toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) }})</div>
         </div>
     </div>                      
 </template>
@@ -61,7 +61,7 @@
             // mark task as complete
             complete(event) {
                 axios
-                    .patch(`/api/tasks/${this.taskData._id}`, { title: this.taskData.title, completed: event.target.checked, completed_at: event.target.checked ? Date() : null} )
+                    .patch(`/api/tasks/${this.taskData._id}`, { title: this.taskData.title, user_id: 1, completed: event.target.checked, completed_at: event.target.checked ? Date() : null} )
                     .then(response => (this.taskData = response.data));
             }
         },
