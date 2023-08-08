@@ -70,7 +70,9 @@
                     }
                     this.title = task.title;
                     this.description = task.description;
-                    this.due_datetime = new Date(task.due_datetime);
+                    if (task.due_datetime) {
+                        this.due_datetime = new Date(task.due_datetime);
+                    }
                 } else {
                     this.task = null;
                     this.parent = null;
