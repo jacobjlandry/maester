@@ -3,11 +3,12 @@
         <div v-if="task" class="text-sm cursor-pointer mb-4" @click="loadTask(parent)">
             <i class="fa-solid fa-chevron-left"></i> Back
         </div>
-        <div class="border-b-2 border-sky-100 w-full p-2 mb-6">
+        <div class="border-b-2 border-sky-100 w-full p-2">
             <input type="text" class="w-full bg-sky-950 border-0 focus:ring-0 text-sky-100 text-4xl disabled:text-sky-100" v-model="this.title" :readonly="this.task === null" @change="save" />
         </div>
         <div v-if="this.task" class="mb-6 px-4 w-full">
-            <div class="w-full bg-sky-950 border-0 outline-none focus:outline-none focus:border-0 focus:ring-0 text-sky-100 text-base disabled:text-sky-100 resize-none" contenteditable :readonly="this.task === null" @blur="setDescription">
+            <div v-if="this.due_datetime" class="pt-2 w-full bg-sky-950 border-0 outline-none text-sky-100 text-xs">Due: {{ this.due_datetime.toLocaleDateString('en-us', { weekday:"long", year:"numeric", month:"short", day:"numeric"}) }}</div>
+            <div class="mt-4 w-full bg-sky-950 border-0 outline-none focus:outline-none focus:border-0 focus:ring-0 text-sky-100 text-base disabled:text-sky-100 resize-none" contenteditable :readonly="this.task === null" @blur="setDescription">
                 {{ description ?? "Add a description" }}
             </div>
         </div>
@@ -17,7 +18,7 @@
         
         <div v-for="subTask in subTasks">
             <Transition name="bounce">
-                <p v-if="!subTask.hideOnComplete || !subTask.completed" style="text-align: center;">
+                <p v-if="!subTask.hide_on_complete || !subTask.completed" style="text-align: center;">
                     <task :task="subTask" @loadTask="loadTask" :class="this.styleTask(subTask)"></task>
                 </p>
             </Transition>
@@ -49,6 +50,7 @@
                 subTasks: [],
                 title: "Todo",
                 description: null,
+                due_datetime: null,
                 // navigation
                 task: null,
                 parent: null,
@@ -68,6 +70,7 @@
                     }
                     this.title = task.title;
                     this.description = task.description;
+                    this.due_datetime = new Date(task.due_datetime);
                 } else {
                     this.task = null;
                     this.parent = null;

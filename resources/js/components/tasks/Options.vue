@@ -38,6 +38,9 @@
                             <option v-for="task in this.tasks" :value="task._id">{{  task.title }}</option>
                         </select>
                     </div>
+                    <div class="py-2 text-sky-900">
+                        <VueDatePicker v-model="this.date" @update:model-value="handleDate" :month-change-on-scroll="false" placeholder="Select Due Date" :timezone="America/New_York"></VueDatePicker>
+                    </div>
                  </div>
              </div>        
          </div>
@@ -48,7 +51,7 @@
  </template>
 
  <script>
-     export default {
+    export default {
          props: {
             task: Object,
          },
@@ -59,6 +62,7 @@
                 taskParent: null,
                 tasks: [],
                 hiddenOnComplete: false,
+                date: "",
                 request: {
                     title: null,
                     user_id: 1,
@@ -92,7 +96,11 @@
                 }
             },
             hideOnComplete(event) {
-                this.request.hideOnComplete = event.target.checked;
+                this.request.hide_on_complete = event.target.checked;
+                this.save();
+            },
+            handleDate(modelData) {
+                this.request.due_datetime = modelData;
                 this.save();
             },
              open() {
@@ -118,8 +126,11 @@
                 if (this.task.parent) {
                     this.taskParent = this.task.parent;
                 }
-                if (this.task.hideOnComplete) {
-                    this.hiddenOnComplete = this.task.hideOnComplete;
+                if (this.task.hide_on_complete) {
+                    this.hiddenOnComplete = this.task.hide_on_complete;
+                }
+                if(this.task.due_datetime) {
+                    this.date = this.task.due_datetime;
                 }
             }
 
