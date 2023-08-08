@@ -72,12 +72,15 @@
                     this.description = task.description;
                     if (task.due_datetime) {
                         this.due_datetime = new Date(task.due_datetime);
+                    } else {
+                        this.due_datetime = null;
                     }
                 } else {
                     this.task = null;
                     this.parent = null;
                     this.title = "Todo";
                     this.description = null;
+                    this.due_datetime = null;
                 }
                 
                 this.getTasks();
