@@ -44,6 +44,15 @@
                     <div class="py-2">
                         <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="hiddenUntilDue" v-bind:id="task._id" @click="hideUntilDue" /> Hide Until Due
                     </div>
+                    <div class="py-2">
+                        <select class="border border-sky-900 rounded-lg py-2 pr-12 w-64" @change="setRepeat" v-model="taskRepeat">
+                            <option value="none">Never Repeat</option>
+                            <option value="daily">Repeat Daily</option>
+                            <option value="weekly">Repeat Weekly</option>
+                            <option value="monthly">Repeat Monthly</option>
+                            <option value="yearly">Repeat Yearly</option>
+                        </select>
+                    </div>
                  </div>
              </div>        
          </div>
@@ -66,6 +75,7 @@
                 tasks: [],
                 hiddenOnComplete: false,
                 hiddenUntilDue: false,
+                taskRepeat: "none",
                 date: "",
                 request: {
                     title: null,
@@ -111,6 +121,11 @@
                 this.request.due_datetime = modelData;
                 this.save();
             },
+            setRepeat(event) {
+                this.request.repeat = event.target.value;
+                this.taskRepeat = event.target.value;
+                this.save();
+            },
              open() {
                  this.showing = true;
              },
@@ -143,6 +158,9 @@
                 }
                 if(this.task.hidden_until_due) {
                     this.hiddenUntilDue = this.task.hidden_until_due;
+                }
+                if(this.task.repeat) {
+                    this.taskRepeat = this.task.repeat;
                 }
             }
 
