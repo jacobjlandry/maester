@@ -26,7 +26,11 @@ class TaskController extends Controller
         // due dates
         $taskQuery->where(function($query) {
             $query->whereNull('due_datetime')
-                ->orWhere('due_datetime', '<=', Date('Y-m-d 23:59:59'));
+                ->orWhereNull('hidden_until_due')
+                ->orWhere(function($query) {
+                    $query->where('due_datetime', '<=', Date('Y-m-d 23:59:59'))
+                        ->orWhere('hidden_until_due', false);
+                });
         });
 
         return $taskQuery->get();

@@ -41,6 +41,9 @@
                     <div class="py-2 text-sky-900">
                         <VueDatePicker v-model="this.date" @update:model-value="handleDate" :month-change-on-scroll="false" placeholder="Select Due Date" :timezone="America/New_York"></VueDatePicker>
                     </div>
+                    <div class="py-2">
+                        <input type="checkbox" class="mr-4 border-sky-600 text-sky-500 bg-sky-100 focus:ring-0 rounded-full w-6 h-6" v-model="hiddenUntilDue" v-bind:id="task._id" @click="hideUntilDue" /> Hide Until Due
+                    </div>
                  </div>
              </div>        
          </div>
@@ -62,6 +65,7 @@
                 taskParent: null,
                 tasks: [],
                 hiddenOnComplete: false,
+                hiddenUntilDue: false,
                 date: "",
                 request: {
                     title: null,
@@ -99,6 +103,10 @@
                 this.request.hide_on_complete = event.target.checked;
                 this.save();
             },
+            hideUntilDue(event) {
+                this.request.hidden_until_due = event.target.checked;
+                this.save();
+            },
             handleDate(modelData) {
                 this.request.due_datetime = modelData;
                 this.save();
@@ -110,6 +118,7 @@
                 this.showing = false;
              },
              save() {
+                console.log(this.request);
                  axios
                  .patch(`/api/tasks/${this.task._id}`, this.request )
                  .then(response => {
@@ -131,6 +140,9 @@
                 }
                 if(this.task.due_datetime) {
                     this.date = this.task.due_datetime;
+                }
+                if(this.task.hidden_until_due) {
+                    this.hiddenUntilDue = this.task.hidden_until_due;
                 }
             }
 

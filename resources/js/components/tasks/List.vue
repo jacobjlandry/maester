@@ -75,12 +75,14 @@
                     } else {
                         this.due_datetime = null;
                     }
+                    this.hidden_until_due = false;
                 } else {
                     this.task = null;
                     this.parent = null;
                     this.title = "Todo";
                     this.description = null;
                     this.due_datetime = null;
+                    this.hidden_until_due = false;
                 }
                 
                 this.getTasks();
